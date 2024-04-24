@@ -5,13 +5,10 @@
 /* ---------------------------- COLOR ---------------------------- */
 $text-schema: (
     text-color: (
-        dawn: (
+        light: (
             color: 800
         ),
-        midnight: (
-            color: 200
-        ),
-        eclipse: (
+        dark: (
             color: 200
         ),
     ),
@@ -19,13 +16,10 @@ $text-schema: (
 
 $text-secondary-schema: (
     text-color: (
-        dawn: (
+        light: (
             color: 600
         ),
-        midnight: (
-            color: 400
-        ),
-        eclipse: (
+        dark: (
             color: 400
         ),
     ),
@@ -33,28 +27,22 @@ $text-secondary-schema: (
 
 $bg-schema: (
     bg-color: (
-        dawn: (
+        light: (
             color: 100
         ),
-        midnight: (
+        dark: (
             color: 900
-        ),
-        eclipse: (
-            color: 950
         ),
     ),
 );
 
 $bg-secondary-schema: (
     bg-color: (
-        dawn: (
+        light: (
             color: 50
         ),
-        midnight: (
+        dark: (
             color: 800
-        ),
-        eclipse: (
-            color: 900
         ),
     ),
 );
@@ -67,14 +55,11 @@ $bg-login-schema: (
 
 $accent-schema: (
     accent-color: (
-        dawn: (
+        light: (
             color: 600
         ),
-        midnight: (
+        dark: (
             color: 400
-        ),
-        eclipse: (
-            color: 600
         ),
     ),
 );
@@ -85,25 +70,19 @@ $tile-trans-schema: extend(
     $accent-schema,
     (
         hover-bg-color: (
-            dawn: (
+            light: (
                 color: 200
             ),
-            midnight: (
+            dark: (
                 color: 700
-            ),
-            eclipse: (
-                color: 800
             ),
         ),
         active-bg-color: (
-            dawn: (
+            light: (
                 color: 300
             ),
-            midnight: (
+            dark: (
                 color: 600
-            ),
-            eclipse: (
-                color: 700
             ),
         ),
     ),
@@ -119,24 +98,18 @@ $tile-border-trans-schema: extend(
     $accent-schema,
     (
         border-color: (
-            dawn: (
+            light: (
                 color: 300
             ),
-            midnight: (
-                color: 700
-            ),
-            eclipse: (
+            dark: (
                 color: 700
             ),
         ),
         hover-border-color: (
-            dawn: (
+            light: (
                 color: 400
             ),
-            midnight: (
-                color: 600
-            ),
-            eclipse: (
+            dark: (
                 color: 600
             ),
         ),
@@ -153,49 +126,37 @@ $tile-accent-schema: (
         color: 50
     ),
     bg-color: (
-        dawn: (
+        light: (
             color: 600
         ),
-        midnight: (
+        dark: (
             color: 400
-        ),
-        eclipse: (
-            color: 600
         ),
     ),
 );
 
 $tile-border-accent-schema: (
     text-color: (
-        dawn: (
+        light: (
             color: 950
         ),
-        midnight: (
-            color: 50
-        ),
-        eclipse: (
+        dark: (
             color: 50
         ),
     ),
     bg-color: (
-        dawn: (
+        light: (
             color: 50
         ),
-        midnight: (
-            color: 950
-        ),
-        eclipse: (
+        dark: (
             color: 950
         ),
     ),
     border-color: (
-        dawn: (
+        light: (
             color: 400
         ),
-        midnight: (
-            color: 600
-        ),
-        eclipse: (
+        dark: (
             color: 600
         ),
     ),
@@ -210,13 +171,10 @@ $btn-schema: (
         color: 500
     ),
     hover-text-color: (
-        dawn: (
+        light: (
             color: 800
         ),
-        midnight: (
-            color: 200
-        ),
-        eclipse: (
+        dark: (
             color: 200
         ),
     ),
@@ -224,90 +182,66 @@ $btn-schema: (
 
 $btn-solid-accent-schema: (
     text-color: (
-        dawn: (
+        light: (
             color: 50
         ),
-        midnight: (
-            color: 950
-        ),
-        eclipse: (
+        dark: (
             color: 950
         ),
     ),
     bg-color: (
-        dawn: (
+        light: (
             color: 500
         ),
-        midnight: (
-            color: 400
-        ),
-        eclipse: (
+        dark: (
             color: 400
         ),
     ),
     hover-text-color: (
-        dawn: (
+        light: (
             color: 50
         ),
-        midnight: (
-            color: 950
-        ),
-        eclipse: (
+        dark: (
             color: 950
         ),
     ),
     hover-bg-color: (
-        dawn: (
+        light: (
             color: 600
         ),
-        midnight: (
-            color: 300
-        ),
-        eclipse: (
+        dark: (
             color: 300
         ),
     ),
     active-text-color: (
-        dawn: (
+        light: (
             color: 50
         ),
-        midnight: (
-            color: 950
-        ),
-        eclipse: (
+        dark: (
             color: 950
         ),
     ),
     active-bg-color: (
-        dawn: (
+        light: (
             color: 700
         ),
-        midnight: (
-            color: 500
-        ),
-        eclipse: (
+        dark: (
             color: 500
         ),
     ),
     disabled-text-color: (
-        dawn: (
+        light: (
             color: 700
         ),
-        midnight: (
-            color: 200
-        ),
-        eclipse: (
+        dark: (
             color: 200
         ),
     ),
     disabled-bg-color: (
-        dawn: (
+        light: (
             color: 200
         ),
-        midnight: (
-            color: 800
-        ),
-        eclipse: (
+        dark: (
             color: 800
         ),
     ),
@@ -318,13 +252,10 @@ $btn-solid-accent-schema: (
 
 $btn-outline-accent-schema: (
     text-color: (
-        dawn: (
+        light: (
             color: 700
         ),
-        midnight: (
-            color: 300
-        ),
-        eclipse: (
+        dark: (
             color: 300
         ),
     ),
@@ -332,24 +263,18 @@ $btn-outline-accent-schema: (
         color: 0
     ),
     hover-bg-color: (
-        dawn: (
+        light: (
             color: 50
         ),
-        midnight: (
-            color: 950
-        ),
-        eclipse: (
+        dark: (
             color: 950
         ),
     ),
     active-bg-color: (
-        dawn: (
+        light: (
             color: 100
         ),
-        midnight: (
-            color: 900
-        ),
-        eclipse: (
+        dark: (
             color: 900
         ),
     ),
@@ -357,13 +282,10 @@ $btn-outline-accent-schema: (
         color: 0
     ),
     border-color: (
-        dawn: (
+        light: (
             color: 700
         ),
-        midnight: (
-            color: 300
-        ),
-        eclipse: (
+        dark: (
             color: 300
         ),
     ),
@@ -380,91 +302,19 @@ $selection-schema: extend(
 
 $scrollbar-schema: (
     thumb-color: (
-        dawn: (
+        light: (
             color: ("zinc", 300)
         ),
-        midnight: (
+        dark: (
             color: ("zinc", 700)
-        ),
-        eclipse: (
-            color: ("zinc", 800)
         ),
     ),
     hover-thumb-color: (
-        dawn: (
+        light: (
             color: 300
         ),
-        midnight: (
+        dark: (
             color: 900
-        ),
-        eclipse: (
-            color: 950
-        ),
-    ),
-);
-
-$doughnut-schema: extend(
-    $accent-schema,
-    $bg-schema,
-);
-
-$contribution-schema: extend(
-    $text-schema,
-    (
-        none: (
-            dawn: (
-                color: ("zinc", 300)
-            ),
-            midnight: (
-                color: ("zinc", 700)
-            ),
-            eclipse: (
-                color: ("zinc", 700)
-            ),
-        ),
-        low: (
-            dawn: (
-                color: 100
-            ),
-            midnight: (
-                color: 950
-            ),
-            eclipse: (
-                color: 950
-            ),
-        ),
-        mid: (
-            dawn: (
-                color: 200
-            ),
-            midnight: (
-                color: 900
-            ),
-            eclipse: (
-                color: 900
-            ),
-        ),
-        high: (
-            dawn: (
-                color: 400
-            ),
-            midnight: (
-                color: 700
-            ),
-            eclipse: (
-                color: 700
-            ),
-        ),
-        ultra: (
-            dawn: (
-                color: 700
-            ),
-            midnight: (
-                color: 500
-            ),
-            eclipse: (
-                color: 500
-            ),
         ),
     ),
 );

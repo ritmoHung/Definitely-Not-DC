@@ -1,4 +1,5 @@
 import "@/app/scss/global.scss";
+import Providers from "@/app/utils/providers";
 
 // Google Fonts
 import { Inter, Noto_Sans_TC } from "next/font/google";
@@ -34,7 +35,7 @@ export const metadata = {
     metadataBase: new URL(url ?? "http://localhost:3000"),
     title: {
         default: title,
-        template: "%s | Def Not Discord",
+        template: "%s | DNDC",
     },
 	description,
     openGraph: {
@@ -63,7 +64,9 @@ export default function RootLayout({ children }) {
                 <link rel="apple-touch-icon" href="/apple-icon?<generated>" type="image/<generated>" sizes="<generated>" />
             </head>
 			<body className={`text-primary bg-primary min-h-svh ${inter.variable} ${notoSansTC.variable}`}>
-                {children}
+                <Providers>
+                    {children}
+                </Providers>
                 <Analytics />
                 <SpeedInsights />
             </body>

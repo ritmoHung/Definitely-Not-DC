@@ -4,7 +4,9 @@
 
 @import "colors.module";
 @import "components";
+@import "animations";
 @import "_constants";
+@import "_mixins";
 @import "_schemata";
 
 /* --------------------------- BREAKPOINTS ---------------------------
@@ -16,7 +18,7 @@
 
 /* -------------------------- TYPOGRAPHY -------------------------- */
 @mixin font-sans {
-    font-family: var(--font-inter-sans), var(--font-noto-sans-tc), sans-serif;
+    font-family: var(--font-inter), var(--font-noto-sans-tc), sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -62,9 +64,21 @@ p {
     text-align: justify;
 }
 
+.text-fineprint {
+    font-size: $fs-300;
+    line-height: 1.5;
+}
+
+.text-microprint {
+    font-size: $fs-200;
+    font-weight: $fw-light;
+    line-height: 1.25;
+    letter-spacing: normal;
+}
 
 
-/* ---------------------------- FONT+BODY ---------------------------- */
+
+/* ----------------------------- BODY ----------------------------- */
 html {
     color-scheme: dark;
     scroll-behavior: smooth;
@@ -83,7 +97,7 @@ body {
 
 
 
-/* --------------------------- LAYOUTS --------------------------- */
+/* ---------------------------- LAYOUT ---------------------------- */
 @mixin wrapper-props($m1: 4rem, $m2: 6rem, $w: 1400px) {
     --margin: #{$m1};
     display: grid;
@@ -103,4 +117,84 @@ body {
 }
 .wrapper-lg {
     @include wrapper-props(4rem, 6rem, 1800px);
+}
+
+
+
+/* ---------------------------- COLORS ---------------------------- */
+.text-primary, select, select option {
+    @include customThemed($text-schema, $include-same-tag: true) using ($theme) {
+        color: map-get($theme, "text-color");
+    }
+}
+.text-secondary {
+    @include customThemed($text-secondary-schema) using ($theme) {
+        color: map-get($theme, "text-color");
+    }
+}
+.text-accent {
+    @include themed($accent-schema) using ($theme) {
+        color: map-get($theme, "accent-color");
+    }
+}
+
+.bg-primary {
+    @include customThemed($bg-schema, $include-same-tag: true) using ($theme) {
+        background-color: map-get($theme, "bg-color");
+    }
+}
+.bg-secondary {
+    @include customThemed($bg-secondary-schema) using ($theme) {
+        background-color: map-get($theme, "bg-color");
+    }
+}
+
+.bg-accent {
+    @include themed($accent-schema) using ($theme) {
+        background-color: map-get($theme, "accent-color");
+    }
+}
+
+
+
+/* ---------------------------- STYLES ---------------------------- */
+.twemoji {
+    display: inline;
+    height: 1.1em;
+    width: 1.1em;
+    margin-inline: 0.2em;
+    vertical-align: -0.15em;
+}
+
+input, textarea {
+    &::placeholder {
+        @extend .text-fineprint;
+        display: block;
+        font-weight: $fw-light;
+    }
+}
+
+input[data-dirty="false"], input[data-dirty="true"] {
+    @extend .tile-border-rounded-xs;
+}
+
+input[data-dirty="true"]:invalid {
+    @extend .tile-border-rounded-red-xs;
+}
+
+
+
+/* ---------------------------- PSEUDO ---------------------------- */
+::selection, ::-webkit-selection {
+    @include themed($selection-schema) using ($theme) {
+        color: map-get($theme, "bg-color");
+        -webkit-text-fill-color: map-get($theme, "bg-color");
+        -moz-text-fill-color: map-get($theme, "bg-color");
+        text-fill-color: map-get($theme, "bg-color");
+        background: map-get($theme, "text-color");
+    }
+}
+
+* {
+    @include custom-scrollbar();
 }

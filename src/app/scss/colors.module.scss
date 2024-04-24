@@ -1,32 +1,19 @@
-$themes: ("dawn", "midnight", "eclipse");
+$themes: ("dark", "light");
 
 // https://uicolors.app/create
 $palettes: (
-	"orange": (
-		50:  #FFF7EC,
-		100: #FFEED3,
-		200: #FFD9A5,
-		300: #FFBD6D,
-		400: #FF9532,
-		500: #FF760A,
-		600: #FF5C00,
-		700: #CC4102,
-		800: #A1330B,
-		900: #822C0C,
-		950: #461304,
-	),
-	"san-marino": (
-		50:  #F3F6FB,
-		100: #E4EBF5,
-		200: #CFDEEE,
-		300: #ADC7E3,
-		400: #86ABD4,
-		500: #6990C8,
-		600: #5678BA,
-		700: #4B67AA,
-		800: #42558B,
-		900: #39486F,
-		950: #262E45,
+	"discord": (
+		50:  #EEF3FF,
+		100: #E0E9FF,
+		200: #C6D6FF,
+		300: #A4B9FD,
+		400: #8093F9,
+		500: #5865F2,
+		600: #4445E7,
+		700: #3836CC,
+		800: #2F2FA4,
+		900: #2D2F82,
+		950: #1A1A4C,
 	),
     "green": (
         50:  #F0FDF4,

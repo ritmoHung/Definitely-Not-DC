@@ -6,7 +6,7 @@ export const metadata = {
     metadataBase: new URL(url ?? "http://localhost:3000"),
     title: {
         default: title,
-        template: "%s | Def Not Discord",
+        template: "%s | DNDC",
     },
 	description,
     openGraph: {
@@ -29,7 +29,7 @@ export const metadata = {
 
 
 
-export default function ChatLayout({ children }) {
+export default async function ChatLayout({ children }) {
     return (
         <div id="chat-layout" className="">
             {children}

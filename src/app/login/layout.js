@@ -1,3 +1,5 @@
+import LoginFooter from "./components/loginFooter";
+
 // Metadata
 const title = "登入";
 const description = "Login";
@@ -23,6 +25,7 @@ export default function LoginLayout({ children }) {
     return (
         <div id="login-layout" className="w-screen h-svh">
             {children}
+            <LoginFooter />
         </div>
     );
 }

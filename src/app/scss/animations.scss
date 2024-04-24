@@ -1,0 +1,165 @@
+@use "sass:color";
+
+@import "_schemata";
+
+/* -------------------------- LOGIN -------------------------- */
+@mixin triangle-grad($base-opacity: 1, $support-opacity: 1) {
+    aspect-ratio: 1 / 1;
+    clip-path: polygon(50% 11.514%, 5.556% 88.486%, 94.444% 88.486%);
+    @include themed($accent-schema) using ($theme) {
+        $base-color: color.adjust(map-get($theme, "accent-color"), $hue: -10deg, $lightness: 20%);
+        $support-color: color.adjust($base-color, $hue: -20deg);
+        background: linear-gradient(
+            to bottom, 
+            color.change($base-color, $alpha: $base-opacity),
+            color.change($support-color, $alpha: $support-opacity)
+        );
+    }
+}
+
+@mixin rotate-anim($type: "cw", $duration: 90s, $timing-function: linear, $delay: 0s, $iteration: infinite, $direction: alternate) {
+    $name: rotate-cw;
+    @if $type == "cw" {
+        $name: rotate-cw;
+    } @else if $type == "ccw" {
+        $name: rotate-ccw;
+    }
+    animation: $name $duration $timing-function $delay $iteration $direction;
+}
+
+@keyframes rotate-cw {
+    from { rotate: 0turn; }
+    to   { rotate: 1turn; }
+}
+@keyframes rotate-ccw {
+    from { rotate:  0turn; }
+    to   { rotate: -1turn; }
+}
+
+.triangle-grad {
+    @include triangle-grad();
+    @include rotate-anim($timing-function: ease-in-out);
+}
+.triangle-grad-sp-1 {
+    @include triangle-grad($support-opacity: 0.2);
+    @include rotate-anim($type: "ccw", $duration: 45s, $delay: 0.5s, $direction: normal);
+}
+.triangle-grad-sp-2 {
+    @include triangle-grad(0.2, 0.1);
+    @include rotate-anim($type: "ccw", $duration: 60s, $delay: 0.25s, $direction: normal);
+}
+
+@keyframes blink {
+    to { visibility: hidden; }
+}
+
+.input-caret {
+    animation: blink 1s steps(2, start) infinite;
+}
+
+/* ---------------------------- CHAT LOAD ---------------------------- */
+@mixin chat-loading($size: "md", $accent: false) {
+    @apply flex;
+    @if $size == "xs" {
+        @apply gap-1 p-1;
+    } @else if $size == "sm" {
+        @apply gap-2 m-1 p-2;
+    } @else if $size == "md" {
+        @apply gap-2 m-1 p-2;
+    } @else if $size == "lg" {
+        @apply gap-4 m-2 p-4;
+    }
+
+    & > div {
+        @apply rounded-full;
+        @if $size == "xs" {
+            @apply size-1;
+        } @else if $size == "sm" {
+            @apply size-1;
+        } @else if $size == "md" {
+            @apply size-2;
+        } @else if $size == "lg" {
+            @apply size-4;
+        }
+        @if $accent {
+            @include themed($text-schema) using ($theme) {
+                background-color: map-get($theme, "text-color");
+            }
+        } @else {
+            @include customThemed($text-schema) using ($theme) {
+                background-color: map-get($theme, "text-color");
+            }
+        }
+
+        &:nth-of-type(1) {
+            @include animate-osc($type: "up");
+        }
+        &:nth-of-type(2) {
+            @include animate-osc($type: "up", $delay: 0.1s);
+        }
+        &:nth-of-type(3) {
+            @include animate-osc($type: "up", $delay: 0.2s);
+        }
+    }
+}
+
+@mixin animate-osc($type: "up", $duration: 1.6s, $delay: 0s) {
+    $name: animate-osc-pos;
+    @if $type == "up" {
+        $name: animate-osc-pos;
+    } @else if $type == "down" {
+        $name: animate-osc-neg;
+    }
+    animation: $name $duration linear $delay infinite;
+}
+
+@keyframes animate-osc-pos {
+    // 0s, 0.4s, 1.6s
+    0%, 25%, 100% {
+        translate: 0 0;
+        animation-timing-function: ease-in-out;
+    }
+    // 0.2s
+    12.5% {
+        translate: 0 -100%;
+        animation-timing-function: ease-in-out;
+    }
+}
+@keyframes animate-osc-neg {
+    // 0s, 0.4s, 1.6s
+    0%, 25%, 100% {
+        translate: 0 0;
+        animation-timing-function: ease-in-out;
+    }
+    // 0.2s
+    12.5% {
+        translate: 0 100%;
+        animation-timing-function: ease-in-out;
+    }
+}
+
+.chat-loading-xs {
+    @include chat-loading($size: "xs");
+}
+.chat-loading-sm {
+    @include chat-loading($size: "sm");
+}
+.chat-loading {
+    @include chat-loading;
+}
+.chat-loading-lg {
+    @include chat-loading($size: "lg");
+}
+
+.chat-loading-accent-xs {
+    @include chat-loading($size: "xs", $accent: true);
+}
+.chat-loading-accent-sm {
+    @include chat-loading($size: "sm", $accent: true);
+}
+.chat-loading-accent {
+    @include chat-loading($accent: true);
+}
+.chat-loading-accent-lg {
+    @include chat-loading($size: "lg", $accent: true);
+}
