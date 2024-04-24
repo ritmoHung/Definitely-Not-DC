@@ -1,0 +1,657 @@
+@import "colors.module";
+@import "_constants";
+@import "_mixins";
+@import "_schemata";
+
+
+
+/* ------------------------------ TILES ------------------------------ */
+@mixin tile($theme) {
+    color: map-get($theme, "text-color");
+    background-color: map-get($theme, "bg-color");
+    @if map-get($theme, "border-color") != null {
+        border: map-get($theme, "border-color") 1px solid;
+    }
+    @if map-get($theme, "hover-border-color") != null {
+        &:is(select) + svg {
+            color: map-get($theme, "hover-border-color");
+            @apply motion-safe:transition-all;
+        }
+    }
+
+    &:is(a, button):hover {
+        background-color: map-get($theme, "hover-bg-color");
+    }
+    &:is(a, button):active {
+        // ! Changed to hover-bg-color
+        @if map-get($theme, "hover-bg-color") != null {
+            background-color: map-get($theme, "hover-bg-color");
+        }
+    }
+
+    &[contenteditable="true"]:hover,
+    &[contenteditable="true"]:focus-visible,
+    &:is(select, input, textarea):hover,
+    &:is(select, input, textarea):focus-visible {
+        @if map-get($theme, "hover-border-color") != null {
+            border: map-get($theme, "hover-border-color") 1px solid !important;
+            & + svg {
+                color: map-get($theme, "text-color");
+            }
+        }
+    }
+    &[contenteditable="true"]:focus-visible,
+    &:is(select, input, textarea):focus-visible {
+        @if map-get($theme, "hover-border-color") != null {
+            outline: map-get($theme, "border-color") 3px solid !important;
+        }
+    }
+
+    &[data-selected="false"] {
+        color: color("zinc", 500);
+    }
+    &[data-selected="false"]:hover, &[data-selected="true"], &[data-selected="true"]:hover {
+        font-weight: $fw-bold;
+        @supports (font-variation-settings: normal) {
+            font-variation-settings: "wght" $fw-bold;
+        }
+        color: map-get($theme, "text-color");
+    }
+    &[data-selected="true"], &[data-selected="true"]:hover {
+        @if map-get($theme, "active-bg-color") != null {
+            background-color: map-get($theme, "active-bg-color");
+        }
+    }
+
+    &:not(input, textarea) {
+        @apply motion-safe:transition-all;
+    }
+    &:is(input, textarea) {
+        @apply motion-safe:transition-colors;
+    }
+}
+
+.tile-rounded-gray {
+    @include tile-props($rounded: true);
+    color: color("zinc", 800);
+    background: color("zinc", 300);
+}
+.tile-border-rounded-gray {
+    @include tile-props($rounded: true);
+    color: color("zinc", 800);
+    border: color("zinc", 300) 1px solid;
+    background-color: color("zinc", 50);
+}
+.tile-border-rounded-gray-sm {
+    @include tile-props($size: "sm", $rounded: true);
+    color: color("zinc", 800);
+    border: color("zinc", 300) 1px solid;
+    background-color: color("zinc", 50);
+}
+
+.tile-border-trans-inline {
+    @include tile-props($size: "inline");
+    @include customThemed($tile-border-trans-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-trans-xs {
+    @include tile-props($size: "xs");
+    @include customThemed($tile-border-trans-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-trans-sm {
+    @include tile-props($size: "sm");
+    @include customThemed($tile-border-trans-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-trans {
+    @include tile-props;
+    @include customThemed($tile-border-trans-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-trans-lg {
+    @include tile-props($size: "lg");
+    @include customThemed($tile-border-trans-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-trans-xl {
+    @include tile-props($size: "xl");
+    @include customThemed($tile-border-trans-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+
+.tile-border-trans-even-xs {
+    @include tile-props($size: "xs", $even: true);
+    @include customThemed($tile-border-trans-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-trans-even-sm {
+    @include tile-props($size: "sm", $even: true);
+    @include customThemed($tile-border-trans-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-trans-even {
+    @include tile-props($even: true);
+    @include customThemed($tile-border-trans-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-trans-even-lg {
+    @include tile-props($size: "lg", $even: true);
+    @include customThemed($tile-border-trans-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-trans-even-xl {
+    @include tile-props($size: "xl", $even: true);
+    @include customThemed($tile-border-trans-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+
+.tile-border-xs {
+    @include tile-props($size: "xs");
+    @include customThemed($tile-border-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-sm {
+    @include tile-props($size: "sm");
+    @include customThemed($tile-border-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border {
+    @include tile-props();
+    @include customThemed($tile-border-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-lg {
+    @include tile-props($size: "lg");
+    @include customThemed($tile-border-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-xl {
+    @include tile-props($size: "xl");
+    @include customThemed($tile-border-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+
+.tile-rounded-trans-xs {
+    @include tile-props($size: "xs", $rounded: true);
+    @include customThemed($tile-trans-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-rounded-trans-sm {
+    @include tile-props($size: "sm", $rounded: true);
+    @include customThemed($tile-trans-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-rounded-trans {
+    @include tile-props($rounded: true);
+    @include customThemed($tile-trans-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-rounded-trans-lg {
+    @include tile-props($size: "lg", $rounded: true);
+    @include customThemed($tile-trans-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-rounded-trans-xl {
+    @include tile-props($size: "xl", $rounded: true);
+    @include customThemed($tile-trans-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+
+.tile-rounded-xs {
+    @include tile-props($size: "xs", $rounded: true);
+    @include customThemed($tile-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-rounded-sm {
+    @include tile-props($size: "sm", $rounded: true);
+    @include customThemed($tile-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-rounded {
+    @include tile-props($rounded: true);
+    @include customThemed($tile-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-rounded-lg {
+    @include tile-props($size: "lg", $rounded: true);
+    @include customThemed($tile-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-rounded-xl {
+    @include tile-props($size: "xl", $rounded: true);
+    @include customThemed($tile-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+
+.tile-rounded-even-xs {
+    @include tile-props($size: "xs", $rounded: true, $even: true);
+    @include customThemed($tile-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-rounded-even-sm {
+    @include tile-props($size: "sm", $rounded: true, $even: true);
+    @include customThemed($tile-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-rounded-even {
+    @include tile-props($rounded: true, $even: true);
+    @include customThemed($tile-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-rounded-even-lg {
+    @include tile-props($size: "lg", $rounded: true, $even: true);
+    @include customThemed($tile-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-rounded-even-xl {
+    @include tile-props($size: "xl", $rounded: true, $even: true);
+    @include customThemed($tile-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+
+.tile-rounded-accent-xs {
+    @include tile-props($size: "xs", $rounded: true);
+    @include themed($tile-accent-schema) using ($theme) {
+        @include tile($theme)
+    }
+}
+.tile-rounded-accent-sm {
+    @include tile-props($size: "sm", $rounded: true);
+    @include themed($tile-accent-schema) using ($theme) {
+        @include tile($theme)
+    }
+}
+.tile-rounded-accent {
+    @include tile-props($rounded: true);
+    @include themed($tile-accent-schema) using ($theme) {
+        @include tile($theme)
+    }
+}
+.tile-rounded-accent-lg {
+    @include tile-props($size: "lg", $rounded: true);
+    @include themed($tile-accent-schema) using ($theme) {
+        @include tile($theme)
+    }
+}
+.tile-rounded-accent-xl {
+    @include tile-props($size: "xl", $rounded: true);
+    @include themed($tile-accent-schema) using ($theme) {
+        @include tile($theme)
+    }
+}
+
+.tile-border-rounded-trans-sm {
+    @include tile-props($size: "sm", $rounded: true);
+    @include customThemed($tile-border-trans-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-rounded-trans {
+    @include tile-props($rounded: true);
+    @include customThemed($tile-border-trans-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-rounded-trans-lg {
+    @include tile-props($size: "lg", $rounded: true);
+    @include customThemed($tile-border-trans-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-rounded-trans-xl {
+    @include tile-props($size: "xl", $rounded: true);
+    @include customThemed($tile-border-trans-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+
+.tile-border-rounded-inline {
+    @include tile-props($size: "inline", $rounded: true);
+    @include customThemed($tile-border-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-rounded-xs {
+    @include tile-props($size: "xs", $rounded: true);
+    @include customThemed($tile-border-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-rounded-sm {
+    @include tile-props($size: "sm", $rounded: true);
+    @include customThemed($tile-border-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-rounded {
+    @include tile-props($rounded: true);
+    @include customThemed($tile-border-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-rounded-lg {
+    @include tile-props($size: "lg", $rounded: true);
+    @include customThemed($tile-border-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-rounded-trans-xl {
+    @include tile-props($size: "xl", $rounded: true);
+    @include customThemed($tile-border-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+
+.tile-border-rounded-even-xs {
+    @include tile-props($size: "xs", $rounded: true, $even: true);
+    @include customThemed($tile-border-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-rounded-even-sm {
+    @include tile-props($size: "sm", $rounded: true, $even: true);
+    @include customThemed($tile-border-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-rounded-even {
+    @include tile-props($rounded: true, $even: true);
+    @include customThemed($tile-border-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-rounded-even-lg {
+    @include tile-props($size: "lg", $rounded: true, $even: true);
+    @include customThemed($tile-border-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-rounded-even-xl {
+    @include tile-props($size: "xl", $rounded: true, $even: true);
+    @include customThemed($tile-border-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+
+.tile-border-rounded-accent-inline {
+    @include tile-props($size: "inline", $rounded: true);
+    @include themed($tile-border-accent-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-rounded-accent-xs {
+    @include tile-props($size: "xs", $rounded: true);
+    @include themed($tile-border-accent-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-rounded-accent-sm {
+    @include tile-props($size: "sm", $rounded: true);
+    @include themed($tile-border-accent-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-rounded-accent {
+    @include tile-props($rounded: true);
+    @include themed($tile-border-accent-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-rounded-accent-lg {
+    @include tile-props($size: "lg", $rounded: true);
+    @include themed($tile-border-accent-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-rounded-accent-xl {
+    @include tile-props($size: "xl", $rounded: true);
+    @include themed($tile-border-accent-schema) using ($theme) {
+        @include tile($theme);
+    }
+}
+
+.tile-border-rounded-green {
+    @include tile-props($rounded: true);
+    @include customThemed($tile-border-accent-schema, "green") using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-rounded-amber {
+    @include tile-props($rounded: true);
+    @include customThemed($tile-border-accent-schema, "amber") using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-rounded-red-xs {
+    @include tile-props($size: "xs", $rounded: true);
+    @include customThemed($tile-border-accent-schema, "red") using ($theme) {
+        @include tile($theme);
+    }
+}
+.tile-border-rounded-red {
+    @include tile-props($rounded: true);
+    @include customThemed($tile-border-accent-schema, "red") using ($theme) {
+        @include tile($theme);
+    }
+}
+
+/* ----------------------------- BUTTONS ----------------------------- */
+@mixin btn-solid($theme) {
+    color: map-get($theme, "text-color");
+    background-color: map-get($theme, "bg-color");
+    
+    &:hover, &:focus-visible {
+        color: map-get($theme, "hover-text-color");
+        background-color: map-get($theme, "hover-bg-color");
+    }
+    &:focus-visible {
+        outline-color: map-get($theme, "outline-color");
+    }
+    &:active {
+        color: map-get($theme, "active-text-color");
+        background-color: map-get($theme, "active-bg-color");
+    }
+    &:disabled {
+        @apply opacity-50;
+        color: map-get($theme, "disabled-text-color");
+        background-color: map-get($theme, "disabled-bg-color");
+    }
+
+    @apply motion-safe:transition-all;
+}
+@mixin btn-outline($theme) {
+    color: map-get($theme, "text-color");
+    background-color: map-get($theme, "bg-color");
+    border: map-get($theme, "border-color") 1px solid;
+    
+    &:hover, &:focus-visible {
+        background-color: map-get($theme, "hover-bg-color");
+    }
+    &:focus-visible {
+        outline-color: map-get($theme, "outline-color");
+    }
+    &:active {
+        background-color: map-get($theme, "active-bg-color");
+    }
+    &:disabled {
+        @apply opacity-50;
+        background-color: map-get($theme, "disabled-bg-color");
+    }
+
+    @apply motion-safe:transition-all;
+}
+
+.btn-rounded-solid-accent-sm {
+    @apply px-2 py-1 rounded-md;
+    @include themed($btn-solid-accent-schema) using ($theme) {
+        @include btn-solid($theme);
+    }
+}
+.btn-rounded-solid-accent {
+    @apply px-4 py-2 rounded-lg;
+    @include themed($btn-solid-accent-schema) using ($theme) {
+        @include btn-solid($theme);
+    }
+}
+
+.btn-rounded-outline-accent-sm {
+    @apply px-2 py-1 rounded-md;
+    @include themed($btn-outline-accent-schema) using ($theme) {
+        @include btn-outline($theme);
+    }
+}
+.btn-rounded-outline-accent {
+    @apply px-4 py-2 rounded-lg;
+    @include themed($btn-outline-accent-schema) using ($theme) {
+        @include btn-outline($theme);
+    }
+}
+
+/* -------------------------- TOGGLE SWITCH -------------------------- */
+@mixin toggle-switch($theme, $btn-height: 2rem) {
+    $toggle-diameter: 0.75 * $btn-height;
+    $btn-width: $btn-height + $toggle-diameter;
+    $toggle-offset: ($btn-height - $toggle-diameter) / 2;
+    $toggle-shadow-offset: 10px;
+    $toggle-wider: $btn-width - 2 * $toggle-offset;
+
+    display: inline-block;
+    height: $btn-height;
+
+    & input[type="checkbox"] {
+        display: none;
+    }
+
+    & input[type="checkbox"]:checked + .slider {
+        background-color: map-get($theme, "accent-color");
+    }
+
+    & input[type="checkbox"]:checked + .slider::after {
+        transform: translateX($btn-width - $toggle-diameter - $toggle-offset);
+        box-shadow: -$toggle-shadow-offset 0 4 * $toggle-shadow-offset rgba(0, 0, 0, 0.1);
+    }
+
+    & input[type="checkbox"]:active + .slider::after {
+        width: $toggle-wider;
+    }
+
+    & input[type="checkbox"]:checked:active + .slider::after {
+        transform: translateX($btn-width - $toggle-wider - $toggle-offset);
+    }
+
+    & > .slider {
+        @apply transition-all duration-300;
+        position: relative;
+        display: inline-block;
+        width: $btn-width;
+        height: $btn-height;
+        background-color: color("zinc", 400);
+        border-radius: 100vw;
+        cursor: pointer;
+    
+        &::after {
+            @apply transition-all duration-300;
+            content: "";
+            position: absolute;
+            display: inline-block;
+            width: $toggle-diameter;
+            height: $toggle-diameter;
+            background-color: #FFF;
+            border-radius: 100vw;
+            top: $toggle-offset;
+            transform: translateX($toggle-offset);
+            box-shadow: $toggle-shadow-offset 0 4 * $toggle-shadow-offset rgba(0, 0, 0, 0.1);
+        }
+    }
+}
+
+.toggle-switch-accent-sm {
+    @include themed($accent-schema) using ($theme) {
+        @include toggle-switch($theme, 1.5rem);
+    }
+}
+.toggle-switch-accent {
+    @include themed($accent-schema) using ($theme) {
+        @include toggle-switch($theme);
+    }
+}
+
+/* ------------------------------ NIXIE ------------------------------ */
+$clr-nuclear-bg: #FFDC5D;
+$clr-nuclear-stripe: color("zinc", 800);
+
+$clr-nixie: #FB4332;
+$clr-nixie-burn: #FCD84C;
+
+.nixie-digit {
+    display: inline-block;
+    position: relative;
+    min-width: 1.5ch;
+    font-family: var(--font-quicksand), sans-serif;
+    font-weight: 300;
+    text-align: center;
+
+    background-color: $clr-nixie;
+    color: transparent;
+    text-shadow: 0 0 0.01em $clr-nixie-burn;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    filter: contrast(1.5) saturate(4);
+    
+    z-index: 3;
+    isolation: isolate;
+
+    &::before {
+        content: attr(data-text);
+        position: absolute;
+        // inset: 0;
+        text-shadow: 0 0 10px $clr-nixie;
+        
+        z-index: 2;
+        isolation: isolate;
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(rgba($clr-nixie, 0.3), transparent);
+        filter: blur(0.1em);
+        
+        z-index: 1;
+        isolation: isolate;
+    }
+}

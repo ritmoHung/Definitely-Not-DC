@@ -1,0 +1,470 @@
+@import "_utils";
+
+
+
+/* ---------------------------- COLOR ---------------------------- */
+$text-schema: (
+    text-color: (
+        dawn: (
+            color: 800
+        ),
+        midnight: (
+            color: 200
+        ),
+        eclipse: (
+            color: 200
+        ),
+    ),
+);
+
+$text-secondary-schema: (
+    text-color: (
+        dawn: (
+            color: 600
+        ),
+        midnight: (
+            color: 400
+        ),
+        eclipse: (
+            color: 400
+        ),
+    ),
+);
+
+$bg-schema: (
+    bg-color: (
+        dawn: (
+            color: 100
+        ),
+        midnight: (
+            color: 900
+        ),
+        eclipse: (
+            color: 950
+        ),
+    ),
+);
+
+$bg-secondary-schema: (
+    bg-color: (
+        dawn: (
+            color: 50
+        ),
+        midnight: (
+            color: 800
+        ),
+        eclipse: (
+            color: 900
+        ),
+    ),
+);
+
+$bg-login-schema: (
+    bg-color: (
+        color: 800
+    ),
+);
+
+$accent-schema: (
+    accent-color: (
+        dawn: (
+            color: 600
+        ),
+        midnight: (
+            color: 400
+        ),
+        eclipse: (
+            color: 600
+        ),
+    ),
+);
+
+/* ---------------------------- TILES ---------------------------- */
+$tile-trans-schema: extend(
+    $text-schema,
+    $accent-schema,
+    (
+        hover-bg-color: (
+            dawn: (
+                color: 200
+            ),
+            midnight: (
+                color: 700
+            ),
+            eclipse: (
+                color: 800
+            ),
+        ),
+        active-bg-color: (
+            dawn: (
+                color: 300
+            ),
+            midnight: (
+                color: 600
+            ),
+            eclipse: (
+                color: 700
+            ),
+        ),
+    ),
+);
+
+$tile-schema: extend(
+    $tile-trans-schema,
+    $bg-secondary-schema,
+);
+
+$tile-border-trans-schema: extend(
+    $text-schema,
+    $accent-schema,
+    (
+        border-color: (
+            dawn: (
+                color: 300
+            ),
+            midnight: (
+                color: 700
+            ),
+            eclipse: (
+                color: 700
+            ),
+        ),
+        hover-border-color: (
+            dawn: (
+                color: 400
+            ),
+            midnight: (
+                color: 600
+            ),
+            eclipse: (
+                color: 600
+            ),
+        ),
+    ),
+);
+
+$tile-border-schema: extend(
+    $tile-border-trans-schema,
+    $bg-schema,
+);
+
+$tile-accent-schema: (
+    text-color: (
+        color: 50
+    ),
+    bg-color: (
+        dawn: (
+            color: 600
+        ),
+        midnight: (
+            color: 400
+        ),
+        eclipse: (
+            color: 600
+        ),
+    ),
+);
+
+$tile-border-accent-schema: (
+    text-color: (
+        dawn: (
+            color: 950
+        ),
+        midnight: (
+            color: 50
+        ),
+        eclipse: (
+            color: 50
+        ),
+    ),
+    bg-color: (
+        dawn: (
+            color: 50
+        ),
+        midnight: (
+            color: 950
+        ),
+        eclipse: (
+            color: 950
+        ),
+    ),
+    border-color: (
+        dawn: (
+            color: 400
+        ),
+        midnight: (
+            color: 600
+        ),
+        eclipse: (
+            color: 600
+        ),
+    ),
+    hover-border-color: (
+        color: 500
+    ),
+);
+
+/* --------------------------- BUTTONS --------------------------- */
+$btn-schema: (
+    text-color:(
+        color: 500
+    ),
+    hover-text-color: (
+        dawn: (
+            color: 800
+        ),
+        midnight: (
+            color: 200
+        ),
+        eclipse: (
+            color: 200
+        ),
+    ),
+);
+
+$btn-solid-accent-schema: (
+    text-color: (
+        dawn: (
+            color: 50
+        ),
+        midnight: (
+            color: 950
+        ),
+        eclipse: (
+            color: 950
+        ),
+    ),
+    bg-color: (
+        dawn: (
+            color: 500
+        ),
+        midnight: (
+            color: 400
+        ),
+        eclipse: (
+            color: 400
+        ),
+    ),
+    hover-text-color: (
+        dawn: (
+            color: 50
+        ),
+        midnight: (
+            color: 950
+        ),
+        eclipse: (
+            color: 950
+        ),
+    ),
+    hover-bg-color: (
+        dawn: (
+            color: 600
+        ),
+        midnight: (
+            color: 300
+        ),
+        eclipse: (
+            color: 300
+        ),
+    ),
+    active-text-color: (
+        dawn: (
+            color: 50
+        ),
+        midnight: (
+            color: 950
+        ),
+        eclipse: (
+            color: 950
+        ),
+    ),
+    active-bg-color: (
+        dawn: (
+            color: 700
+        ),
+        midnight: (
+            color: 500
+        ),
+        eclipse: (
+            color: 500
+        ),
+    ),
+    disabled-text-color: (
+        dawn: (
+            color: 700
+        ),
+        midnight: (
+            color: 200
+        ),
+        eclipse: (
+            color: 200
+        ),
+    ),
+    disabled-bg-color: (
+        dawn: (
+            color: 200
+        ),
+        midnight: (
+            color: 800
+        ),
+        eclipse: (
+            color: 800
+        ),
+    ),
+    outline-color: (
+        color: 600
+    ),
+);
+
+$btn-outline-accent-schema: (
+    text-color: (
+        dawn: (
+            color: 700
+        ),
+        midnight: (
+            color: 300
+        ),
+        eclipse: (
+            color: 300
+        ),
+    ),
+    bg-color: (
+        color: 0
+    ),
+    hover-bg-color: (
+        dawn: (
+            color: 50
+        ),
+        midnight: (
+            color: 950
+        ),
+        eclipse: (
+            color: 950
+        ),
+    ),
+    active-bg-color: (
+        dawn: (
+            color: 100
+        ),
+        midnight: (
+            color: 900
+        ),
+        eclipse: (
+            color: 900
+        ),
+    ),
+    disabled-bg-color: (
+        color: 0
+    ),
+    border-color: (
+        dawn: (
+            color: 700
+        ),
+        midnight: (
+            color: 300
+        ),
+        eclipse: (
+            color: 300
+        ),
+    ),
+    outline-color: (
+        color: 600
+    ),
+);
+
+/* ---------------------------- UTILS ---------------------------- */
+$selection-schema: extend(
+    $text-schema,
+    $bg-schema,
+);
+
+$scrollbar-schema: (
+    thumb-color: (
+        dawn: (
+            color: ("zinc", 300)
+        ),
+        midnight: (
+            color: ("zinc", 700)
+        ),
+        eclipse: (
+            color: ("zinc", 800)
+        ),
+    ),
+    hover-thumb-color: (
+        dawn: (
+            color: 300
+        ),
+        midnight: (
+            color: 900
+        ),
+        eclipse: (
+            color: 950
+        ),
+    ),
+);
+
+$doughnut-schema: extend(
+    $accent-schema,
+    $bg-schema,
+);
+
+$contribution-schema: extend(
+    $text-schema,
+    (
+        none: (
+            dawn: (
+                color: ("zinc", 300)
+            ),
+            midnight: (
+                color: ("zinc", 700)
+            ),
+            eclipse: (
+                color: ("zinc", 700)
+            ),
+        ),
+        low: (
+            dawn: (
+                color: 100
+            ),
+            midnight: (
+                color: 950
+            ),
+            eclipse: (
+                color: 950
+            ),
+        ),
+        mid: (
+            dawn: (
+                color: 200
+            ),
+            midnight: (
+                color: 900
+            ),
+            eclipse: (
+                color: 900
+            ),
+        ),
+        high: (
+            dawn: (
+                color: 400
+            ),
+            midnight: (
+                color: 700
+            ),
+            eclipse: (
+                color: 700
+            ),
+        ),
+        ultra: (
+            dawn: (
+                color: 700
+            ),
+            midnight: (
+                color: 500
+            ),
+            eclipse: (
+                color: 500
+            ),
+        ),
+    ),
+);

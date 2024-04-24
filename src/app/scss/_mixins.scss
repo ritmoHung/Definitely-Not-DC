@@ -1,0 +1,160 @@
+@import "colors.module";
+@import "_schemata";
+
+
+
+/* ---------------------------- STYLE ---------------------------- */
+@mixin bg-accent-props($opacity: 1) {
+    @include themed($accent-schema) using ($theme) {
+        background-color: rgba(map-get($theme, "accent-color"), $opacity);
+    }
+}
+
+@mixin tile-props($size: "md", $rounded: false, $even: false) {
+    $p: 1em;
+    $r: 0.75rem;
+
+    @if $size == "inline" {
+        $p: 0.25em;
+        $r: 0.25rem;
+    } @else if $size == "xs" {
+        $p: 0.5em;
+        $r: 0.25rem;
+    } @else if $size == "sm" {
+        $p: 0.625em;
+        $r: 0.375rem;
+    } @else if $size == "md" {
+        $p: 1em;
+        $r: 0.75rem;
+    } @else if $size == "lg" {
+        $p: 1.5em;
+        $r: 1rem;
+    } @else if $size == "xl" {
+        $p: 2em;
+        $r: 1.5rem;
+    }
+
+    @if $size == "inline" {
+        padding-inline: $p;
+    } @else {
+        @if $even {
+            padding: $p;
+        } @else {
+            padding-inline: 1.75 * $p;
+            padding-block: $p;
+        }
+    }
+
+    @if $rounded {
+        border-radius: $r;
+    }
+}
+
+
+
+/* -------------------------- LIST PROP -------------------------- */
+$children-margin: 3ch;
+
+@mixin list-props() {
+    display: grid;
+    row-gap: 0.25rem;
+    // TODO: iOS devices starts from 0 instead of 1
+    counter-reset: list-item;
+}
+@mixin list-item-props() {
+    display: grid;
+    grid-template-areas: "icon content"
+                         "icon children";
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    list-style-type: none;
+}
+@mixin list-item-before-props() {
+    display: block;
+    grid-area: icon;
+    width: $children-margin;
+}
+
+@mixin list() {
+    ul {
+        @include list-props;
+    
+        & > li {
+            @include list-item-props;
+    
+            &::before {
+                @include list-item-before-props;
+                content: "•";
+                font-weight: bold;
+                text-align: center;
+            }
+        }
+    }
+    ol {
+        @include list-props;
+    
+        & > li {
+            @include list-item-props;
+            counter-increment: list-item;
+    
+            &::before {
+                @include list-item-before-props;
+                content: counter(list-item) ".";
+                padding-block-start: 0.18em;
+                font-family: var(--font-jetbrains-mono), var(--font-noto-sans-tc), sans-serif;
+                font-size: 0.9em;
+                padding-inline-end: 0.5ch;
+                text-align: right;
+            }
+        }
+    }
+    li > span {
+        grid-area: content;
+    }
+    li > div {
+        grid-area: children;
+    }
+}
+
+
+
+/* -------------------------- SCROLLBAR -------------------------- */
+@mixin custom-scrollbar($size: "md") {
+    $w: 1.5rem;
+
+    @if $size == "sm" {
+        $w: 1rem;
+    } @else if $size == "md" {
+        $w: 1.5rem;
+    }
+
+    &::-webkit-scrollbar {
+        width: calc(0.6 * $w);
+        height: calc(0.6 * $w);
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    @include themed($scrollbar-schema, $include-same-tag: true) using ($theme) {
+        &::-webkit-scrollbar-thumb {
+            border: calc(0.2 * $w) solid transparent;
+            background: map-get($theme, "thumb-color");
+            border-radius: calc(0.6 * $w);
+            background-clip: content-box;
+        }
+    
+        &::-webkit-scrollbar-thumb:hover {
+            border: calc(0.2 * $w) solid transparent;
+            background: map-get($theme, "hover-thumb-color");
+            border-radius: calc(0.6 * $w);
+            background-clip: content-box;
+        }
+    }
+
+    &::-webkit-scrollbar-corner {
+        border-radius: calc(0.6 * $w);
+    }
+}

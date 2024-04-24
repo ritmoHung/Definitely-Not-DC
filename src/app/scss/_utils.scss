@@ -1,0 +1,164 @@
+@import "colors.module";
+
+
+
+/// Removes all null key-value pairs from the map
+/// @param {Map} $map - The target map to be cleaned.
+/// @returns {Map} - Returns a clean map.
+@function map-clean($map) {
+	$result: ();
+
+	@each $key, $value in $map {
+		@if ($value) != null {
+			$result: map-merge($result, (#{$key}: $value));
+		}
+	}
+
+	@return $result;
+}
+
+/// Extends a Map object with the properties of another Map object.
+/// @param {Map...} $maps - The source map to get extended.
+/// @requires {function} map-clean
+/// @returns {Map} - Returns the merged maps.
+@function extend($maps...) {
+	$result: ();
+
+	@each $map in $maps {
+		$result: map-merge($result, map-clean($map));
+	}
+
+	@return $result;
+}
+
+/// Generates CSS classes with all possible combination of
+/// theme and palette selector.
+/// @param {Map} $schema - A base component schema.
+/// @param {Boolean} $include-same-tag - A boolean to decide whether to also generate same-tag selectors or not.
+/// @requires {function} resolve-schema
+@mixin themed($schema, $include-same-tag: false) {
+	@each $theme in $themes {
+		@each $palette-name, $palette-map in $palettes {
+			// Descendant selector
+			$base-selector: ".theme--#{$theme}.palette--#{$palette-name} &";
+			// Same-tag selector
+			@if $include-same-tag {
+				$base-selector: $base-selector + ", &.theme--#{$theme}.palette--#{$palette-name}";
+			}
+
+			#{$base-selector} {
+				$resolved-schema: resolve-schema(
+					$schema,
+					$theme,
+					$palette-name
+				);
+				@content ($resolved-schema);
+			}
+		}
+	}
+}
+
+/// Generates CSS classes with all possible combination of
+/// theme and palette selector.
+/// @param {Map} $schema - A base component schema.
+/// @param {String} $palette-name - A palette name.
+/// @param {Boolean} $include-same-tag - A boolean to decide whether to also generate same-tag selectors or not.
+/// @requires {function} resolve-schema
+@mixin customThemed($schema, $palette-name: "zinc", $include-same-tag: false) {
+	@each $theme in $themes {
+		// Descendant selector
+		$base-selector: ".theme--#{$theme} &";
+		// Same-tag selector
+		@if $include-same-tag {
+			$base-selector: $base-selector + ", &.theme--#{$theme}";
+		}
+
+		#{$base-selector} {
+			$resolved-schema: resolve-schema($schema, $theme, $palette-name);
+			@content ($resolved-schema);
+		}
+	}
+}
+
+/// Resolves a `palette` to a given schema.
+/// @param {Map} $schema - A base component schema.
+/// @param {String} $theme - A theme name.
+/// @param {String} $palette - A palette name.
+/// @requires {function} resolve-value
+/// @returns {Map} - A map with the resolved `palette` values.
+@function resolve-schema($schema, $theme, $palette) {
+	$result: ();
+
+	@each $key, $value in $schema {
+		@if type-of($value) == "map" {
+			$result: map-merge(
+				$result,
+				(#{$key}: resolve-value($value, $theme, $palette))
+			);
+		} @else {
+			$result: map-merge($result, (#{$key}: #{$value}));
+		}
+	}
+
+	@return $result;
+}
+
+/// Returns a value for a given instruction map, where the
+/// keys of the map are the names of the functions to be called,
+/// and the value for a given key is the arguments the function
+/// should be called with.
+/// The value might be a map, in this case the key name would be
+/// one of the theme names, containing the real functions to be called.
+/// The instruction set is executed left-to-right. The output of
+/// the first instruction is then passed as input to the next, and so on.
+/// @param {Map} $ctx - The instruction map to be used.
+/// @param {String} $theme - A theme name.
+/// @param {List | Map} $extra [null] - Additional arguments to be passed during function calls.
+/// Will only be applied for color functions.
+/// @requires {function} process-function
+@function resolve-value($ctx, $theme, $extra: null) {
+	$result: null;
+
+	// Iterate over the <key>:<value> pairs in the instruction map
+	@each $key, $args in $ctx {
+		@if type-of($args) == "map" and $key == $theme {
+			@each $fn, $fnArgs in $args {
+				$result: process-function($fn, $fnArgs, $result, $extra);
+			}
+		} @else if type-of($args) != "map" {
+			$result: process-function($key, $args, $result, $extra);
+		}
+	}
+
+	@return $result;
+}
+
+/// Resolves the function calling method and return the value.
+/// @param {String} $fn - The function name to be called.
+/// @param {} $args - Arguments passed to the called function.
+/// @param {} $result -
+/// @param {List | Map} $extra [null] - Additional arguments to be passed during function calls.
+/// Will only be applied for color functions.
+@function process-function($fn, $args, $result, $extra: null) {
+	// Check if function exists
+	@if function-exists($fn) {
+		// Gets the handle of function
+		$fn: get-function($fn);
+
+		@if $result == null {
+			@if ($extra) {
+				$result: call($fn, $extra, $args...);
+			} @else {
+				$result: call($fn, $args...);
+			}
+		} @else {
+			@if ($extra) {
+				$result: call($fn, $extra, $args...);
+			} @else {
+				$result: call($fn, $result, $args...);
+			}
+		}
+	}
+
+	@return $result;
+}

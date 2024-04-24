@@ -1,0 +1,134 @@
+$themes: ("dawn", "midnight", "eclipse");
+
+// https://uicolors.app/create
+$palettes: (
+	"orange": (
+		50:  #FFF7EC,
+		100: #FFEED3,
+		200: #FFD9A5,
+		300: #FFBD6D,
+		400: #FF9532,
+		500: #FF760A,
+		600: #FF5C00,
+		700: #CC4102,
+		800: #A1330B,
+		900: #822C0C,
+		950: #461304,
+	),
+	"san-marino": (
+		50:  #F3F6FB,
+		100: #E4EBF5,
+		200: #CFDEEE,
+		300: #ADC7E3,
+		400: #86ABD4,
+		500: #6990C8,
+		600: #5678BA,
+		700: #4B67AA,
+		800: #42558B,
+		900: #39486F,
+		950: #262E45,
+	),
+    "green": (
+        50:  #F0FDF4,
+        100: #DCFCE7,
+        200: #BBF7D0,
+        300: #86EFAC,
+        400: #4ADE80,
+        500: #22C55E,
+        600: #16A34A,
+        700: #15803D,
+        800: #166534,
+        900: #14532D,
+        950: #052E16,
+    ),
+    "amber": (
+        50:  #FFFBEB,
+        100: #FEF3C7,
+        200: #FDE68A,
+        300: #FCD34D,
+        400: #FBBF24,
+        500: #F59E9B,
+        600: #D97706,
+        700: #B45309,
+        800: #92400E,
+        900: #78350F,
+        950: #451A03,
+    ),
+    "red": (
+        50:  #FEFEF2,
+        100: #FEE2E2,
+        200: #FECACA,
+        300: #FCA5A5,
+        400: #F87171,
+        500: #EF4444,
+        600: #DC2626,
+        700: #B91C1C,
+        800: #991B1B,
+        900: #7F1D1D,
+        950: #450A0A,
+    ),
+    "zinc": (
+        50:  #FAFAFA,
+        100: #F4F4F5,
+        200: #E4E4E7,
+        300: #D4D4D8,
+        400: #A1A1AA,
+        500: #71717A,
+        600: #52525B,
+        700: #3F3F46,
+        800: #27272A,
+        900: #18181B,
+        950: #09090B,
+    ),
+);
+
+@function color($args...) {
+	$arguments: ();
+
+	@each $arg in $args {
+		$arguments: map-merge($arguments, map-get(
+            (
+                "string": (palette: $arg),
+                "number": (variant: $arg),
+            ), type-of($arg)
+        ));
+	}
+
+    $palette: map-get($arguments, "palette");
+    $variant: map-get($arguments, "variant");
+    @if $variant == 0 {
+        @return transparent;
+    }
+	@return map-get(map-get($palettes, $palette), $variant);
+}
+
+@function list-to-json($list) {
+	$str: "[";
+	@for $i from 1 through length($list) {
+		$item: nth($list, $i);
+
+		$str: $str + "\"" + $item + "\"";
+		@if not ($i == length($list)) {
+			$str: $str + ", ";
+		}
+	}
+	$str: $str + "]";
+	@return $str;
+}
+
+@function map-keys-to-json($map, $exclude: null) {
+    $keys: map-keys($map);
+    $filtered-keys: ();
+    @each $key in $keys {
+        @if not index($exclude, $key) {
+            $filtered-keys: append($filtered-keys, $key, comma);
+        }
+    }
+
+    @return list-to-json($filtered-keys);
+}
+
+:export {
+    themes: list-to-json($themes);
+    palettes: map-keys-to-json($palettes, $exclude: ("green", "amber", "red", "zinc"));
+}
