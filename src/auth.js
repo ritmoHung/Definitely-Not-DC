@@ -22,7 +22,7 @@ const providers = [
                 if (userData) {
                     // Verify password
                     const res = await axiosFetcher("/api/password", {
-                        baseUrl: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000",
+                        baseUrl: process.env.NEXT_PUBLIC_VERCEL_ENV ? `https://${process.env.NEXT_PUBLIC_VERCEL_ENV}` : "http://localhost:3000",
                         params: { action: "verify" },
                         method: "POST",
                         data: { 
@@ -36,7 +36,7 @@ const providers = [
                     // Directly creates user if DNE
                     // Hash password
                     const res = await axiosFetcher("/api/password", {
-                        baseUrl: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000",
+                        baseUrl: process.env.NEXT_PUBLIC_VERCEL_ENV ? `https://${process.env.NEXT_PUBLIC_VERCEL_ENV}` : "http://localhost:3000",
                         params: { action: "hash" },
                         method: "POST",
                         data: { password: credentials.password },

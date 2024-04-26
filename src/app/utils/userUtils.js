@@ -30,7 +30,7 @@ export async function createUser(userInfo) {
         userInfo.user_id = uuidv4();
 
         const res = await axiosFetcher("/api/users", {
-            baseUrl: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000",
+            baseUrl: process.env.NEXT_PUBLIC_VERCEL_ENV ? `https://${process.env.NEXT_PUBLIC_VERCEL_ENV}` : "http://localhost:3000",
             method: "POST",
             data: userInfo,
         });
