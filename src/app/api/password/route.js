@@ -5,6 +5,35 @@ import argon2 from "argon2";
 
 
 
+// ? Since argon2 has issues running on Vercel, this API is not used now.
+// ? Below is a copy of original code in auth.js.
+
+// # Verify password
+// const res = await axiosFetcher("/api/password", {
+//     baseUrl,
+//     params: { action: "verify" },
+//     method: "POST",
+//     data: { 
+//         hash: userData.password,
+//         password: credentials.password,
+//     },
+// });
+// if (res.data.match) user = { id: userData.user_id, name: userData.name, email: userData.email };
+
+// # Hash password
+// const res = await axiosFetcher("/api/password", {
+//     baseUrl,
+//     params: { action: "hash" },
+//     method: "POST",
+//     data: { password: credentials.password },
+// });
+
+// userInfo.password = res.data.hash;
+// userData = await createUser(userInfo);
+// user = { id: userData.user_id, name: userData.name, email: userData.email };
+
+
+
 // # Get the value of password hashing or verify result
 export async function POST(req) {
     const action = req.nextUrl.searchParams.get("action");

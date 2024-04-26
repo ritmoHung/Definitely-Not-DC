@@ -1,5 +1,5 @@
-import { axiosFetcher } from "@/app/utils/fetcher";
 import { authenticateUser, createUser } from "@/app/utils/userUtils";
+import { hashPassword, verifyPassword } from "./app/utils/pwUtils";
 
 // Auth.js
 import NextAuth from "next-auth";
@@ -23,29 +23,11 @@ const providers = [
                 let userData = await authenticateUser(userInfo);
 
                 if (userData) {
-                    // Verify password
-                    const res = await axiosFetcher("/api/password", {
-                        baseUrl,
-                        params: { action: "verify" },
-                        method: "POST",
-                        data: { 
-                            hash: userData.password,
-                            password: credentials.password,
-                        },
-                    });
-
-                    if (res.data.match) user = { id: userData.user_id, name: userData.name, email: userData.email };
+                    const match = await verifyPassword(credentials.password, userData.password);
+                    if (match) user = { id: userData.user_id, name: userData.name, email: userData.email };
                 } else {
                     // Directly creates user if DNE
-                    // Hash password
-                    const res = await axiosFetcher("/api/password", {
-                        baseUrl,
-                        params: { action: "hash" },
-                        method: "POST",
-                        data: { password: credentials.password },
-                    });
-                    
-                    userInfo.password = res.data.hash;
+                    userInfo.password = await hashPassword(credentials.password);
                     userData = await createUser(userInfo);
                     user = { id: userData.user_id, name: userData.name, email: userData.email };
                 }

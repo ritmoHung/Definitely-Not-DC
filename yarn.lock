@@ -967,6 +967,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bcryptjs@npm:^2.4.3":
+  version: 2.4.3
+  resolution: "bcryptjs@npm:2.4.3"
+  checksum: 10c0/b969467087ed7a01ff905a1c6a0c45014ec586248a448ea08370c8ed8bb314bda16a870ca23e0961d7d23bdce1a04c76fa70a9d680be814fa9ac7d8fc61870a3
+  languageName: node
+  linkType: hard
+
 "binary-extensions@npm:^2.0.0":
   version: 2.3.0
   resolution: "binary-extensions@npm:2.3.0"
@@ -1384,6 +1391,7 @@ __metadata:
     argon2: "npm:^0.40.1"
     autoprefixer: "npm:^10.4.19"
     axios: "npm:^1.6.8"
+    bcryptjs: "npm:^2.4.3"
     eslint: "npm:^8"
     eslint-config-next: "npm:14.2.2"
     mongodb: "npm:^6.5.0"
