@@ -1,11 +1,13 @@
-"use client";
+import { auth } from "@/auth";
+import Link from "next/link";
 
+export default async function Chat() {
+    const session = await auth();
 
-
-export default function Chat() {
     return (
-        <div>
-            
+        <div className="grid place-items-center gap-4">
+            <span>Welcome back, {session?.user.name}!</span>
+            <Link href="/chat/settings" className="btn-rounded-solid-accent">Settings</Link>
         </div>
     );
 }

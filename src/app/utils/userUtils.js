@@ -14,10 +14,11 @@ export async function authenticateUser(userInfo) {
         const user = await User.findOne({ uuid: userInfo.uuid }, projection).lean();
 
         // Return user document if exist
+        console.log("USER::FIND: Success");
         if (user) return user;
         else return null;
     } catch (error) {
-        // ? Throw the error back to the callback route
+        console.log("USER::FIND: Failed");
         if (!error.context) error.context = "AUTH";
         throw error;
     }
@@ -39,10 +40,12 @@ export async function createUser(userInfo) {
             userData = res.data;
             delete userData["_id"];
             delete userData["__v"];
+            console.log("USER::CREATE: Success");
         } else {
             throw new Error("Failed to create user.");
         }
     } catch (error) {
+        console.error("USER::CREATE: Failed");
         if (!error.context) error.context = "CREATE";
         throw error;
     }

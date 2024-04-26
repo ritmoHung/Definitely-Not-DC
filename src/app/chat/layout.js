@@ -34,15 +34,13 @@ export const metadata = {
 
 export default async function ChatLayout({ children }) {
     const session = await auth();
-    console.log(session?.user.id);
     if (!session?.user.id) {
         const errorMessage = encodeURIComponent("You are not signed in.");
         redirect(`/login?error=${errorMessage}`);
     }
 
     return (
-        <div id="chat-layout" className="">
-            Yay!!!
+        <div id="chat-layout" className="grid w-screen h-svh place-items-center">
             {children}
         </div>
     );

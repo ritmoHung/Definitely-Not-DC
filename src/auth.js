@@ -19,6 +19,8 @@ const providers = [
                 const userInfo = { email: credentials.email };
                 let userData = await authenticateUser(userInfo);
 
+                const URL = process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : "http://localhost:3000";
+                console.log("URL:", URL);
                 if (userData) {
                     // Verify password
                     const res = await axiosFetcher("/api/password", {
