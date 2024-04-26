@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { v4 as uuidv4 } from "uuid";
 
 const userSchema = new mongoose.Schema({
     user_id: {
@@ -9,6 +10,7 @@ const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
+        default: () => `User${uuidv4().substring(0, 6).toUpperCase()}`,
     },
     email: {
         type: String,

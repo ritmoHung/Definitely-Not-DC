@@ -1,4 +1,4 @@
-import { SignOut } from "@/app/utils/sign";
+import { SignOut } from "@/app/components/signOut";
 
 export default function Settings() {
     return (

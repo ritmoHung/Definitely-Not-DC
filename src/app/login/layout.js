@@ -1,3 +1,6 @@
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+
 import LoginFooter from "./components/loginFooter";
 
 // Metadata
@@ -21,7 +24,10 @@ export const metadata = {
 
 
 
-export default function LoginLayout({ children }) {
+export default async function LoginLayout({ children }) {
+    const session = await auth();
+    if (session?.user) redirect("/chat");
+    
     return (
         <div id="login-layout" className="w-screen h-svh">
             {children}

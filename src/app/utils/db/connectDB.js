@@ -9,35 +9,28 @@ const opts = {
 let cached = global.mongoose;
 
 if (!cached) {
-	cached = global.mongoose = { conn: {}, promise: {} };
+	cached = global.mongoose = { conn: null, promise: null }
 }
 
-cached.conn = cached.conn || {};
-cached.promise = cached.promise || {};
-
-export default async function connectDB(databaseName) {
+export default async function connectDB(databaseName = process.env.MONGODB_DB) {
 	if (!MONGODB_URI) {
 		throw new Error("Please define the MONGODB_URI environment variable");
 	}
 
-	const fullURL = `${MONGODB_URI}/${databaseName}${MONGODB_QUERY}`;
-	// console.log(fullURL);
+    if (cached.conn && cached.conn.readyState === 1) {
+        return cached.conn;
+    }
 
-	if (cached.conn[databaseName]) {
-		// console.log("Use cached connection for:", databaseName);
-		return cached.conn[databaseName];
-	}
-
-	if (!cached.promise[databaseName]) {
-		// console.log("Create new connection promise for:", databaseName);
-		cached.promise[databaseName] = mongoose.connect(fullURL, opts)
+	const FULL_URL = `${MONGODB_URI}/${databaseName}${MONGODB_QUERY}`;
+	if (!cached.promise) {
+		cached.promise = mongoose.connect(FULL_URL, opts)
 			.then(mongoose => mongoose.connection)
 			.catch(err => {
-				console.log(`Connection error to ${databaseName}:`, err);
-				delete cached.promise[databaseName];
+				console.log(`Error when connecting to ${databaseName}:`, err);
+				delete cached.promise;
                 throw err;
 			})
 	}
-	cached.conn[databaseName] = await cached.promise[databaseName];
-	return cached.conn[databaseName];
+	cached.conn = await cached.promise;
+	return cached.conn;
 }

@@ -1,29 +1,39 @@
-import { Fragment } from "react";
-import { providerMap } from "@/auth";
-import { SignIn } from "@/app/utils/sign";
+"use client";
+import { Fragment, useState, useEffect } from "react";
+import { SignInWithCreds, SignInWithProvider } from "@/app/components/signIn";
 
 // UI
 import { FormInput } from "@/app/ui/form";
+
+const providerMap = [
+    {
+        id: "credentials",
+        name: "Credentials",
+    },
+    {
+        id: "google",
+        name: "Google",
+    },
+];
 
 const titles = [
     ["想聊天？", "就用\u2009", "DNDC"],
     ["DNDC，", "啟動！"],
 ];
 
-function getRandomTitle() {
-    const title = titles[Math.floor(Math.random() * titles.length)];
-    return title;
-}
-
 export default function LoginPanel({ className }) {
-    const title = getRandomTitle();
+    const [title, setTitle] = useState([]);
+    
+    useEffect(() => {
+        setTitle(titles[Math.floor(Math.random() * titles.length)]);
+    }, []);
 
     function isTarget(words, index, length) {
         return (words === "DNDC") && (index == length - 1);
     }
 
     return (
-        <div className={`${className} tile-rounded-xl w-[clamp(18rem,_90vw,_30rem)] sm:m-8`}>
+        <div className={`${className} tile-rounded-xl w-[clamp(18rem,_90vw,_30rem)] sm:m-8 shadow-2xl`}>
             <div className="my-4">
                 {/* Title */}
                 <h1 className="mb-6 font-jb-mono">
@@ -39,10 +49,10 @@ export default function LoginPanel({ className }) {
                 {/* Content */}
                 <div className="grid gap-y-4">
                     {/* Credentials */}
-                    <SignIn provider={providerMap.find(provider => provider.id === "credentials")}>
-                        <FormInput type="email" id="cred-email" label="Email" placeholder="Email" required />
-                        <FormInput type="password" id="cred-password" label="Password"  placeholder="Password" required />
-                    </SignIn>
+                    <SignInWithCreds provider={providerMap.find(provider => provider.id === "credentials")}>
+                        <FormInput type="email" id="cred-email" name="email" placeholder="Email" required />
+                        <FormInput type="password" id="cred-password" name="password"  placeholder="Password" required />
+                    </SignInWithCreds>
 
                     {/* Separator */}
                     <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 uppercase">
@@ -54,7 +64,7 @@ export default function LoginPanel({ className }) {
                     {/* Other Providers */}
                     {Object.values(providerMap).map((provider) => (
                         provider.id !== "credentials"
-                            ? <SignIn key={provider.id} provider={provider} />
+                            ? <SignInWithProvider key={provider.id} provider={provider} />
                             : null
                     ))}
                 </div>

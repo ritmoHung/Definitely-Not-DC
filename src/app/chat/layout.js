@@ -1,3 +1,6 @@
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+
 // Metadata
 const title = "聊天";
 const description = "歡迎來到 Def Not Discord —— 儘管他真的長得很像 Discord。";
@@ -30,8 +33,16 @@ export const metadata = {
 
 
 export default async function ChatLayout({ children }) {
+    const session = await auth();
+    console.log(session?.user.id);
+    if (!session?.user.id) {
+        const errorMessage = encodeURIComponent("You are not signed in.");
+        redirect(`/login?error=${errorMessage}`);
+    }
+
     return (
         <div id="chat-layout" className="">
+            Yay!!!
             {children}
         </div>
     );
