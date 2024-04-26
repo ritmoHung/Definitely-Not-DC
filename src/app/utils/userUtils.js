@@ -25,13 +25,14 @@ export async function authenticateUser(userInfo) {
 }
 
 export async function createUser(userInfo) {
+    const baseUrl = process.env.VERCEL_BRANCH_URL ? `https://${process.env.VERCEL_BRANCH_URL}` : "http://localhost:3000";
     let userData;
 
     try {
         userInfo.user_id = uuidv4();
 
         const res = await axiosFetcher("/api/users", {
-            baseUrl: process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : "http://localhost:3000",
+            baseUrl,
             method: "POST",
             data: userInfo,
         });

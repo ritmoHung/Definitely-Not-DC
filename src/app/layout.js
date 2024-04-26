@@ -30,7 +30,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 // Metadata
 const title = "Def Not Discord";
 const description = "歡迎來到 Def Not Discord —— 儘管他真的長得很像 Discord。";
-const url = `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`;
+const url = `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
 export const metadata = {
     metadataBase: new URL(url ?? "http://localhost:3000"),
     title: {

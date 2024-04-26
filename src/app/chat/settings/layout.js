@@ -1,7 +1,7 @@
 // Metadata
 const title = "設定";
 const description = "Settings";
-const url = `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/chat/settings`;
+const url = `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}/chat/settings`;
 export const metadata = {
     title,
     description,

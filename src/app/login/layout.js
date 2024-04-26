@@ -6,7 +6,7 @@ import LoginFooter from "./components/loginFooter";
 // Metadata
 const title = "登入";
 const description = "Login";
-const url = `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/login`;
+const url = `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}/login`;
 export const metadata = {
     title,
     description,

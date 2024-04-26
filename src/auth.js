@@ -13,18 +13,19 @@ const providers = [
             password: {},
         },
         authorize: async (credentials) => {
+            const baseUrl = process.env.VERCEL_BRANCH_URL ? `https://${process.env.VERCEL_BRANCH_URL}` : "http://localhost:3000";
             let user;
+
+            console.log(baseUrl);
             try {
                 // Find if user exists in DB
                 const userInfo = { email: credentials.email };
                 let userData = await authenticateUser(userInfo);
 
-                const URL = process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : "http://localhost:3000";
-                console.log("URL:", URL);
                 if (userData) {
                     // Verify password
                     const res = await axiosFetcher("/api/password", {
-                        baseUrl: process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : "http://localhost:3000",
+                        baseUrl,
                         params: { action: "verify" },
                         method: "POST",
                         data: { 
@@ -38,7 +39,7 @@ const providers = [
                     // Directly creates user if DNE
                     // Hash password
                     const res = await axiosFetcher("/api/password", {
-                        baseUrl: process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : "http://localhost:3000",
+                        baseUrl,
                         params: { action: "hash" },
                         method: "POST",
                         data: { password: credentials.password },
