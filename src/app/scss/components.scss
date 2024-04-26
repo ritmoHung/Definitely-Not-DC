@@ -43,7 +43,7 @@
     &[contenteditable="true"]:focus-visible,
     &:is(select, input, textarea):focus-visible {
         @if map-get($theme, "hover-border-color") != null {
-            outline: map-get($theme, "border-color") 3px solid !important;
+            outline: map-get($theme, "border-color") 2px solid !important;
         }
     }
 
@@ -367,7 +367,7 @@
         @include tile($theme);
     }
 }
-.tile-border-rounded-trans-xl {
+.tile-border-rounded-xl {
     @include tile-props($size: "xl", $rounded: true);
     @include customThemed($tile-border-schema) using ($theme) {
         @include tile($theme);

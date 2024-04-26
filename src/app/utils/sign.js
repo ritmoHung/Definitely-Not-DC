@@ -1,39 +1,48 @@
 import Image from "next/image";
 import { signIn, signOut } from "@/auth";
 
-export async function SignIn({ provider }) {
+// UI
+import { FormAction } from "@/app/ui/form";
+
+export async function SignIn({ children, provider }) {
+    const isCredentials = provider.id === "credentials";
+
 	return (
-		<form
-			action = {async () => {
+		<FormAction
+			action = {async (formData) => {
 				"use server";
-				await signIn(provider.id);
+                if (isCredentials) await signIn(provider.id, formData);
+				else await signIn(provider.id);
 			}}
 		>
-			<button type="submit" className="tile-rounded-sm inline-flex items-center gap-2 w-full">
-                <Image
-                    src={`https://authjs.dev/img/providers/${provider.id}.svg`}
-                    alt="Company logo"
-                    width="64"
-                    height="64"
-                    className="size-4"
-                    priority
-                    quality={100}
-                />
-                <span>Sign in with {provider.name}</span>
+            {children}
+			<button type="submit" className={`btn-rounded-solid-accent inline-grid ${isCredentials ? "grid-cols-1" : "grid-cols-[auto_1fr]"} items-center gap-2 w-full`}>
+                {!isCredentials && 
+                    <Image
+                        src={`https://authjs.dev/img/providers/${provider.id}.svg`}
+                        alt="Company logo"
+                        width="64"
+                        height="64"
+                        className="size-4"
+                        priority
+                        quality={100}
+                    />
+                }
+                <span>Sign in{!isCredentials ? ` with ${provider.name}` : ""}</span>
             </button>
-		</form>
+		</FormAction>
 	);
 }
 
 export async function SignOut() {
 	return (
-		<form
+		<FormAction
 			action = {async () => {
 				"use server";
 				await signOut();
 			}}
 		>
-			<button type="submit">Sign Out</button>
-		</form>
+			<button type="submit" className="btn-rounded-solid-accent inline-grid">Sign Out</button>
+		</FormAction>
 	);
 }

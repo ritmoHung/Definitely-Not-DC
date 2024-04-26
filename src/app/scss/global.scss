@@ -17,8 +17,8 @@
 
 
 /* -------------------------- TYPOGRAPHY -------------------------- */
-@mixin font-sans {
-    font-family: var(--font-inter), var(--font-noto-sans-tc), sans-serif;
+.font-sans {
+    font-family: var(--font-manrope), var(--font-noto-sans-tc), sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -90,7 +90,7 @@ body {
     overflow-y: overlay !important;
     scrollbar-gutter: stable both-edges;
 
-    @include font-sans;
+    @extend .font-sans;
     font-size: $fs-400;
     letter-spacing: 0.04em;
 }

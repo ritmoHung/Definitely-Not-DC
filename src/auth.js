@@ -3,7 +3,6 @@ import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 
 const providers = [
-    Google,
     Credentials({
         credentials: {
             email: {},
@@ -18,6 +17,7 @@ const providers = [
         //     return user;
         // }
     }),
+    Google,
 ];
 
 export const providerMap = providers.map((provider) => {

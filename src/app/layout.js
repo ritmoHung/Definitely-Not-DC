@@ -2,13 +2,13 @@ import "@/app/scss/global.scss";
 import Providers from "@/app/utils/providers";
 
 // Google Fonts
-import { Inter, Noto_Sans_TC } from "next/font/google";
-const inter = Inter({
+import { Manrope, Noto_Sans_TC } from "next/font/google";
+const manrope = Manrope({
     weight: ["variable"],
     style: ["normal"],
     display: "swap",
     subsets: ["latin"],
-    variable: "--font-inter",
+    variable: "--font-manrope",
 });
 const notoSansTC = Noto_Sans_TC({
     weight: ["variable"],
@@ -63,7 +63,7 @@ export default function RootLayout({ children }) {
                 <link rel="icon" href="/icon?<generated>" type="image/<generated>" sizes="<generated>" />
                 <link rel="apple-touch-icon" href="/apple-icon?<generated>" type="image/<generated>" sizes="<generated>" />
             </head>
-			<body className={`text-primary bg-primary min-h-svh ${inter.variable} ${notoSansTC.variable}`}>
+			<body className={`text-primary bg-primary min-h-svh ${manrope.variable} ${notoSansTC.variable}`}>
                 <Providers>
                     {children}
                 </Providers>
