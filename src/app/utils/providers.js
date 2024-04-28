@@ -2,23 +2,39 @@
 import { useState, useEffect, createContext } from "react";
 import { themes, palettes } from "@/app/utils/constants/colors";
 
+// auth.js
+import { SessionProvider } from "next-auth/react";
+
 // SWR
 import { SWRConfig } from "swr";
+
+// Recoil
+import { atom, RecoilRoot } from "recoil";
 
 // Popup
 import { PopupProvider } from "./popup";
 
 
 
+/* ----------------------------- ATOM ----------------------------- */
+export const threadAtom = atom({
+    key: "thread",
+    default: null,
+});
+
 export default function Providers({ children }) {
     return (
-        <ThemeProvider>
-            <PopupProvider>
-                <SWRConfig value={{ errorRetryInterval: 10000, errorRetryCount: 3 }}>
-                    {children}
-                </SWRConfig>
-            </PopupProvider>
-        </ThemeProvider>
+        <SessionProvider>
+            <RecoilRoot>
+                <ThemeProvider>
+                    <PopupProvider>
+                        <SWRConfig value={{ errorRetryInterval: 10000, errorRetryCount: 3 }}>
+                            {children}
+                        </SWRConfig>
+                    </PopupProvider>
+                </ThemeProvider>
+            </RecoilRoot>
+        </SessionProvider>
     );
 }
 
@@ -44,8 +60,7 @@ function ThemeProvider({ children }) {
         document.body.classList.add(`theme--${theme}`);
 
         // Update color-scheme property
-        const colorScheme = theme === "dawn" ? "light" : "dark";
-        document.documentElement.style.colorScheme = colorScheme;
+        document.documentElement.style.colorScheme = theme;
 
         // Remove previous class
         return () => {

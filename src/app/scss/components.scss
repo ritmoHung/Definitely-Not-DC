@@ -1,11 +1,10 @@
 @import "colors.module";
-@import "_constants";
 @import "_mixins";
 @import "_schemata";
 
 
 
-/* ------------------------------ TILES ------------------------------ */
+/* ----------------------------- TILE ----------------------------- */
 @mixin tile($theme) {
     color: map-get($theme, "text-color");
     background-color: map-get($theme, "bg-color");
@@ -51,10 +50,7 @@
         color: color("zinc", 500);
     }
     &[data-selected="false"]:hover, &[data-selected="true"], &[data-selected="true"]:hover {
-        font-weight: $fw-bold;
-        @supports (font-variation-settings: normal) {
-            font-variation-settings: "wght" $fw-bold;
-        }
+        @apply font-bold;
         color: map-get($theme, "text-color");
     }
     &[data-selected="true"], &[data-selected="true"]:hover {
@@ -281,6 +277,12 @@
     }
 }
 
+.tile-rounded-accent-inline {
+    @include tile-props($size: "inline", $rounded: true);
+    @include themed($tile-accent-schema) using ($theme) {
+        @include tile($theme)
+    }
+}
 .tile-rounded-accent-xs {
     @include tile-props($size: "xs", $rounded: true);
     @include themed($tile-accent-schema) using ($theme) {
@@ -467,143 +469,199 @@
     }
 }
 
-/* ----------------------------- BUTTONS ----------------------------- */
-@mixin btn-solid($theme) {
-    color: map-get($theme, "text-color");
-    background-color: map-get($theme, "bg-color");
-    
-    &:hover, &:focus-visible {
-        color: map-get($theme, "hover-text-color");
-        background-color: map-get($theme, "hover-bg-color");
-    }
-    &:focus-visible {
-        outline-color: map-get($theme, "outline-color");
-    }
-    &:active {
-        color: map-get($theme, "active-text-color");
-        background-color: map-get($theme, "active-bg-color");
-    }
-    &:disabled {
-        @apply opacity-50;
-        color: map-get($theme, "disabled-text-color");
-        background-color: map-get($theme, "disabled-bg-color");
+
+
+/* ------------------------- INTERACTIVES ------------------------- */
+@layer components {
+    @mixin ia-props($size: "md") {
+        @if $size == "sm" {
+            @apply h-10 px-[0.875rem] rounded-lg;
+        } @else if $size == "md" {
+            @apply h-9 sm:h-11 px-3 sm:px-4 rounded-lg;
+        } @else if $size == "lg" {
+            @apply h-10 px-[0.875rem] rounded-lg;
+        } @else if $size == "xl" {
+            @apply h-10 px-[0.875rem] rounded-lg;
+        }
     }
 
-    @apply motion-safe:transition-all;
-}
-@mixin btn-outline($theme) {
-    color: map-get($theme, "text-color");
-    background-color: map-get($theme, "bg-color");
-    border: map-get($theme, "border-color") 1px solid;
-    
-    &:hover, &:focus-visible {
-        background-color: map-get($theme, "hover-bg-color");
+    // # Buttons
+    @mixin btn-solid($theme) {
+        color: map-get($theme, "text-color");
+        background-color: map-get($theme, "bg-color");
+        
+        &:hover, &:focus-visible {
+            color: map-get($theme, "hover-text-color");
+            background-color: map-get($theme, "hover-bg-color");
+        }
+        &:focus-visible {
+            outline-color: map-get($theme, "outline-color");
+        }
+        &:active {
+            color: map-get($theme, "active-text-color");
+            background-color: map-get($theme, "active-bg-color");
+        }
+        &:disabled {
+            @apply opacity-50;
+            color: map-get($theme, "disabled-text-color");
+            background-color: map-get($theme, "disabled-bg-color");
+        }
     }
-    &:focus-visible {
-        outline-color: map-get($theme, "outline-color");
-    }
-    &:active {
-        background-color: map-get($theme, "active-bg-color");
-    }
-    &:disabled {
-        @apply opacity-50;
-        background-color: map-get($theme, "disabled-bg-color");
-    }
-
-    @apply motion-safe:transition-all;
-}
-
-.btn-rounded-solid-accent-sm {
-    @apply px-2 py-1 rounded-md;
-    @include themed($btn-solid-accent-schema) using ($theme) {
-        @include btn-solid($theme);
-    }
-}
-.btn-rounded-solid-accent {
-    @apply px-4 py-2 rounded-lg;
-    @include themed($btn-solid-accent-schema) using ($theme) {
-        @include btn-solid($theme);
-    }
-}
-
-.btn-rounded-outline-accent-sm {
-    @apply px-2 py-1 rounded-md;
-    @include themed($btn-outline-accent-schema) using ($theme) {
-        @include btn-outline($theme);
-    }
-}
-.btn-rounded-outline-accent {
-    @apply px-4 py-2 rounded-lg;
-    @include themed($btn-outline-accent-schema) using ($theme) {
-        @include btn-outline($theme);
-    }
-}
-
-/* -------------------------- TOGGLE SWITCH -------------------------- */
-@mixin toggle-switch($theme, $btn-height: 2rem) {
-    $toggle-diameter: 0.75 * $btn-height;
-    $btn-width: $btn-height + $toggle-diameter;
-    $toggle-offset: ($btn-height - $toggle-diameter) / 2;
-    $toggle-shadow-offset: 10px;
-    $toggle-wider: $btn-width - 2 * $toggle-offset;
-
-    display: inline-block;
-    height: $btn-height;
-
-    & input[type="checkbox"] {
-        display: none;
+    @mixin btn-outline($theme) {
+        color: map-get($theme, "text-color");
+        background-color: map-get($theme, "bg-color");
+        border: map-get($theme, "border-color") 1px solid;
+        
+        &:hover, &:focus-visible {
+            background-color: map-get($theme, "hover-bg-color");
+        }
+        &:focus-visible {
+            outline-color: map-get($theme, "outline-color");
+        }
+        &:active {
+            background-color: map-get($theme, "active-bg-color");
+        }
+        &:disabled {
+            @apply opacity-50;
+            background-color: map-get($theme, "disabled-bg-color");
+        }
     }
 
-    & input[type="checkbox"]:checked + .slider {
-        background-color: map-get($theme, "accent-color");
+    .btn {
+        @apply inline-flex items-center justify-center gap-3;
+
+        &[data-size="sm"] {
+            @include ia-props($size: "sm");
+        }
+        &[data-size="md"] {
+            @include ia-props($size: "md");
+        }
+        &[data-size="lg"] {
+            @include ia-props($size: "lg");
+        }
+        &[data-size="xl"] {
+            @include ia-props($size: "xl");
+        }
+
+        @apply motion-safe:transition-all;
+    }
+    .btn-trans {
+
+    }
+    .btn-solid {
+        @include themed($btn-solid-accent-schema) using ($theme) {
+            @include btn-solid($theme);
+        }
+    }
+    .btn-outline {
+        @include themed($btn-outline-accent-schema) using ($theme) {
+            @include btn-outline($theme);
+        }
     }
 
-    & input[type="checkbox"]:checked + .slider::after {
-        transform: translateX($btn-width - $toggle-diameter - $toggle-offset);
-        box-shadow: -$toggle-shadow-offset 0 4 * $toggle-shadow-offset rgba(0, 0, 0, 0.1);
-    }
+    // # Inputs
+    .input-border-rounded {
+        // General
+        @apply text-300;
+        &[data-valid="false"] {
+            @include customThemed($tile-border-accent-schema, "red") using ($theme) {
+                @include tile($theme);
+            }
+        }
+        @include customThemed($tile-border-schema) using ($theme) {
+            @include tile($theme);
+        }
 
-    & input[type="checkbox"]:active + .slider::after {
-        width: $toggle-wider;
-    }
+        // Sizing
+        &[data-size="sm"] {
+            @include ia-props($size: "sm");
+        }
+        &[data-size="md"] {
+            @include ia-props($size: "md");
+        }
+        &[data-size="lg"] {
+            @include ia-props($size: "lg");
+        }
+        &[data-size="xl"] {
+            @include ia-props($size: "xl");
+        }
 
-    & input[type="checkbox"]:checked:active + .slider::after {
-        transform: translateX($btn-width - $toggle-wider - $toggle-offset);
-    }
-
-    & > .slider {
-        @apply transition-all duration-300;
-        position: relative;
-        display: inline-block;
-        width: $btn-width;
-        height: $btn-height;
-        background-color: color("zinc", 400);
-        border-radius: 100vw;
-        cursor: pointer;
-    
-        &::after {
-            @apply transition-all duration-300;
-            content: "";
-            position: absolute;
-            display: inline-block;
-            width: $toggle-diameter;
-            height: $toggle-diameter;
-            background-color: #FFF;
-            border-radius: 100vw;
-            top: $toggle-offset;
-            transform: translateX($toggle-offset);
-            box-shadow: $toggle-shadow-offset 0 4 * $toggle-shadow-offset rgba(0, 0, 0, 0.1);
+        // Pseudo elements
+        &::placeholder {
+            @apply block;
         }
     }
 }
 
-.toggle-switch-accent-sm {
-    @include themed($accent-schema) using ($theme) {
-        @include toggle-switch($theme, 1.5rem);
+
+
+/* ---------------------------- TOGGLE ---------------------------- */
+@layer components {
+    @mixin toggle-props($theme, $btn-height: 2rem) {
+        $toggle-diameter: 0.75 * $btn-height;
+        $btn-width: $btn-height + $toggle-diameter;
+        $toggle-offset: ($btn-height - $toggle-diameter) / 2;
+        $toggle-shadow-offset: 10px;
+        $toggle-wider: $btn-width - 2 * $toggle-offset;
+    
+        display: inline-block;
+        height: $btn-height;
+    
+        & input[type="checkbox"] {
+            display: none;
+        }
+    
+        & input[type="checkbox"]:checked + .slider {
+            background-color: map-get($theme, "accent-color");
+        }
+    
+        & input[type="checkbox"]:checked + .slider::after {
+            transform: translateX($btn-width - $toggle-diameter - $toggle-offset);
+            box-shadow: -$toggle-shadow-offset 0 4 * $toggle-shadow-offset rgba(0, 0, 0, 0.1);
+        }
+    
+        & input[type="checkbox"]:active + .slider::after {
+            width: $toggle-wider;
+        }
+    
+        & input[type="checkbox"]:checked:active + .slider::after {
+            transform: translateX($btn-width - $toggle-wider - $toggle-offset);
+        }
+    
+        & > .slider {
+            @apply transition-all duration-300;
+            position: relative;
+            display: inline-block;
+            width: $btn-width;
+            height: $btn-height;
+            background-color: color("zinc", 400);
+            border-radius: 100vw;
+            cursor: pointer;
+        
+            &::after {
+                @apply transition-all duration-300;
+                content: "";
+                position: absolute;
+                display: inline-block;
+                width: $toggle-diameter;
+                height: $toggle-diameter;
+                background-color: #FFF;
+                border-radius: 100vw;
+                top: $toggle-offset;
+                transform: translateX($toggle-offset);
+                box-shadow: $toggle-shadow-offset 0 4 * $toggle-shadow-offset rgba(0, 0, 0, 0.1);
+            }
+        }
     }
-}
-.toggle-switch-accent {
-    @include themed($accent-schema) using ($theme) {
-        @include toggle-switch($theme);
+
+    .toggle-accent {
+        @include themed($accent-schema) using ($theme) {
+            &[data-size="sm"] {
+                @include toggle-props($theme, 1.5rem);
+            }
+            &[data-size="md"] {
+                @include toggle-props($theme);
+            }
+        }
     }
 }

@@ -4,12 +4,6 @@
 
 
 /* ---------------------------- STYLE ---------------------------- */
-@mixin bg-accent-props($opacity: 1) {
-    @include themed($accent-schema) using ($theme) {
-        background-color: rgba(map-get($theme, "accent-color"), $opacity);
-    }
-}
-
 @mixin tile-props($size: "md", $rounded: false, $even: false) {
     $p: 1em;
     $r: 0.75rem;
@@ -40,7 +34,7 @@
         @if $even {
             padding: $p;
         } @else {
-            padding-inline: 1.75 * $p;
+            padding-inline: 1.375 * $p;
             padding-block: $p;
         }
     }

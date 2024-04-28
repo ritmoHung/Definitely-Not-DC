@@ -5,5 +5,6 @@ export async function hashPassword(password) {
 }
 
 export async function verifyPassword(password, hash) {
+    if (!hash) throw new Error("PW: Hash undefined");
     return bcrypt.compare(password, hash);
 }

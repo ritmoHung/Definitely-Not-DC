@@ -24,6 +24,17 @@ module.exports = {
 			"2xl": "1400px",
 		},
 		extend: {
+            // https://utopia.fyi/type/calculator?c=576,14,1.25,1200,18,1.25,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12
+            fontSize: {
+                "200": "clamp(0.56rem, 0.4123rem + 0.4103vw, 0.72rem)",
+                "300": "clamp(0.7rem, 0.5154rem + 0.5128vw, 0.9rem)",
+                "400": "clamp(0.875rem, 0.6442rem + 0.641vw, 1.125rem)",
+                "500": "clamp(1.0938rem, 0.8053rem + 0.8013vw, 1.4063rem)",
+                "600": "clamp(1.3675rem, 1.0069rem + 1.0016vw, 1.7581rem)",
+                "700": "clamp(1.7088rem, 1.2576rem + 1.2532vw, 2.1975rem)",
+                "800": "clamp(2.1363rem, 1.5726rem + 1.5657vw, 2.7469rem)",
+                "900": "clamp(2.67rem, 1.9656rem + 1.9567vw, 3.4331rem)",
+            },
             screens: {
                 // Logic opposite to widths
                 petite: { raw: "(max-height: 576px)" },

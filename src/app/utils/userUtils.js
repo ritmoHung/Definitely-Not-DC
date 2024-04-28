@@ -11,16 +11,13 @@ export async function authenticateUser(userInfo) {
     try {
         await connectDB();
         const projection = "-_id -__v";
-        const user = await User.findOne({ uuid: userInfo.uuid }, projection).lean();
+        const user = await User.findOne({ email: userInfo.email }, projection).lean();
 
         // Return user document if exist
-        console.log("USER::FIND: Success");
-        if (user) return user;
-        else return null;
+        console.log(`USER::FIND: ${user ? "Exist" : "Not found"}`);
+        return user ? user : null;
     } catch (error) {
-        console.log("USER::FIND: Failed");
-        if (!error.context) error.context = "AUTH";
-        throw error;
+        throw new Error(`USER::FIND: ${error.message}`);
     }
 }
 
@@ -43,12 +40,10 @@ export async function createUser(userInfo) {
             delete userData["__v"];
             console.log("USER::CREATE: Success");
         } else {
-            throw new Error("Failed to create user.");
+            throw new Error("An error occurred during the process");
         }
     } catch (error) {
-        console.error("USER::CREATE: Failed");
-        if (!error.context) error.context = "CREATE";
-        throw error;
+        throw new Error(`USER::CREATE: ${error.message}`);
     }
 
     return userData;

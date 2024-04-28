@@ -1,0 +1,37 @@
+@import "global";
+
+.message-container {
+    @apply flex flex-col-reverse gap-4 w-full;
+
+    & > .message-box {
+        $grid-area: "icon info"
+                    "icon content";
+
+        @apply grid gap-x-4 gap-y-1 grid-cols-[auto_1fr];
+        grid-template-areas: $grid-area;
+
+        & > .message-icon {
+            grid-area: icon;
+        }
+
+        & > .message-info {
+            @apply flex items-baseline gap-2 [&_>_*]:text-nowrap;
+            grid-area: info;
+        }
+
+        & > .message-content {
+            grid-area: content;
+
+            & a {
+                @extend .text-accent;
+                text-decoration: underline;
+                text-underline-offset: 0.25em;
+                text-decoration-thickness: 0.05em;
+            }
+
+            & img {
+                @apply w-[min(100%,_45rem)] rounded-lg;
+            }
+        }
+    }
+}

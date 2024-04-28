@@ -1,10 +1,11 @@
-import Link from "next/link";
+// UI
+import { LinkSolid } from "@/app/ui/button";
 
 export default function Home() {
 	return (
 		<header className="isolate">
             <nav className="fixed tile-border-lg w-screen !border-x-0 !border-t-0">
-                <Link href="/login" className="btn-rounded-solid-accent">Open DNDC</Link>
+                <LinkSolid href="/login">Open DNDC</LinkSolid>
             </nav>
 			<div className="grid place-content-center gap-32 h-svh [&_>_*]:px-4 [&_>_*]:md:px-16
                             place-items-center xl:place-items-start">

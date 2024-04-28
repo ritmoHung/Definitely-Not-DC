@@ -1,6 +1,11 @@
 import { signOut } from "@/auth";
 
+// UI
+import { ButtonSolid } from "@/app/ui/button";
+
 export async function SignOut() {
+    const title = "Sign Out";
+
 	return (
 		<form
 			action={async () => {
@@ -8,7 +13,9 @@ export async function SignOut() {
 				await signOut({ redirectTo: "/" });
 			}}
 		>
-			<button type="submit" className="btn-rounded-solid-accent inline-grid">Sign Out</button>
+            <ButtonSolid type="submit" title={title} className="inline-grid">
+                <span>{title}</span>
+            </ButtonSolid>
 		</form>
 	);
 }

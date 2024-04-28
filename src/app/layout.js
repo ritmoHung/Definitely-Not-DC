@@ -63,7 +63,7 @@ export default async function RootLayout({ children }) {
                 <link rel="icon" href="/icon?<generated>" type="image/<generated>" sizes="<generated>" />
                 <link rel="apple-touch-icon" href="/apple-icon?<generated>" type="image/<generated>" sizes="<generated>" />
             </head>
-			<body className={`text-primary bg-primary min-h-svh ${manrope.variable} ${notoSansTC.variable}`}>
+			<body className={`${manrope.variable} ${notoSansTC.variable}`}>
                 <Providers>
                     {children}
                 </Providers>

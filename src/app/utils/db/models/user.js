@@ -19,9 +19,19 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
+        required: false,
+    },
+    image: {
+        type: String,
+        required: false,
+        default: "",
+    },
+    status: {
+        type: String,
+        required: false,
+        default: "",
     }
-}, { collection: "users" });
+}, { collection: "users", timestamps: true });
 
 const User = mongoose.models.User || mongoose.model("User", userSchema, "users");
 

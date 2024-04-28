@@ -1,3 +1,4 @@
+import "@/app/scss/chat.scss";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
@@ -40,7 +41,7 @@ export default async function ChatLayout({ children }) {
     }
 
     return (
-        <div id="chat-layout" className="grid w-screen h-svh place-items-center">
+        <div id="chat-layout" className="">
             {children}
         </div>
     );

@@ -2,6 +2,7 @@ import { signIn } from "next-auth/react";
 
 // UI
 import { FormSubmit } from "@/app/ui/form";
+import { ButtonSolid } from "@/app/ui/button";
 
 // Font Awesome Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -28,18 +29,19 @@ export function SignInWithCreds({ children, provider }) {
     return (
         <FormSubmit id={`form-${provider.name}`} handleSubmit={handleSubmit}>
             {children}
-            <button type="submit" className={`btn-rounded-solid-accent inline-flex justify-center items-center gap-2 w-full`}>
+            <ButtonSolid type="submit" className="w-full">
                 <span>Sign in</span>
-            </button>
+            </ButtonSolid>
         </FormSubmit>
     );
 }
 
 export function SignInWithProvider({ provider }) {
+    const title = `Sign in with ${provider.name}`;
     return (
-		<button className={`btn-rounded-solid-accent inline-grid grid-cols-[auto_1fr] items-center gap-2 w-full`} onClick={() => signIn(provider.id)}>
+        <ButtonSolid type="submit" title={title} className="inline-grid grid-cols-[auto_1fr] w-full" onClick={() => signIn(provider.id)}>
             <FontAwesomeIcon icon={findIconByProvider(provider.id)} />
-            <span>Sign in with {provider.name}</span>
-        </button>
+            <span>{title}</span>
+        </ButtonSolid>
 	);
 }
