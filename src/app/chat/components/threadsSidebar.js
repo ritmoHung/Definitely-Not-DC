@@ -7,31 +7,41 @@ import Image from "next/image";
 // Recoil
 import { useRecoilState } from "recoil";
 import { threadAtom } from "@/app/utils/providers";
+import { sidebarExpand } from "../page";
 
 // SWR
 import useSWR from "swr";
 import { axiosFetcher } from "@/app/utils/fetcher";
 
 // Components & UI
-import ThreadCreateModal from "./threadCreateModal";
 import Loader from "@/app/components/loader";
 import { ButtonTrans, LinkTrans } from "@/app/ui/button";
 
 // Font Awesome Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSquarePlus, faUsers, faGear } from "@fortawesome/free-solid-svg-icons";
+import { faSquarePlus, faXmark, faUsers, faGear } from "@fortawesome/free-solid-svg-icons";
 
 
 
-export default function ThreadsNavbar({ className }) {
+export default function ThreadsSidebar({ className, setIsModalOpen, ...props }) {
     const session = useSession();
     const user = session.data?.user;
 
+    const [expanded, setExpanded] = useRecoilState(sidebarExpand);
+
     return (
-        <nav className={`${className} grid grid-rows-[auto_1fr_auto] p-2`}>
+        <aside id="primary-sidebar" className={`${className} grid grid-rows-[auto_1fr_auto] p-2`}
+               aria-label="Thread list" {...props}>
             {/* Toolbar */}
-            <div className="p-1">
-                <ThreadCreateButton />
+            <div className="flex items-center justify-between p-2">
+                <ButtonTrans type="button" onClick={() => setIsModalOpen(true)}>
+                    <FontAwesomeIcon className="text-600 text-accent" icon={faSquarePlus} />
+                    <span>Create</span>
+                </ButtonTrans>
+                <ButtonTrans title="Close sidebar" className="md:hidden" aria-controls="primary-sidebar" aria-expanded={expanded}
+                             onClick={() => setExpanded(false)} square>
+                    <FontAwesomeIcon icon={faXmark} className="text-500" />
+                </ButtonTrans>
             </div>
 
             {/* Threads List */}
@@ -39,27 +49,14 @@ export default function ThreadsNavbar({ className }) {
 
             {/* User Info */}
             <UserInfo className="!p-2 !pb-0 !border-x-0 !border-b-0" user={user} />
-        </nav>
-    );
-}
-
-function ThreadCreateButton() {
-    const [isOpen, setIsOpen] = useState(false);
-
-    return (
-        <div>
-            <ButtonTrans type="button" onClick={() => setIsOpen(true)}>
-                <FontAwesomeIcon className="text-600 text-accent" icon={faSquarePlus} />
-                <span className="hidden sm:inline">Create</span>
-            </ButtonTrans>
-            {isOpen && <ThreadCreateModal closeModal={() => setIsOpen(false)} />}
-        </div>
+        </aside>
     );
 }
 
 function ThreadList({ className, user }) {
     const { addPopupMessage } = useContext(PopupContext);
     const [selectedThread, setSelectedThread] = useRecoilState(threadAtom);
+    const [expanded, setExpanded] = useRecoilState(sidebarExpand);
 
     const { data, isLoading, error } = useSWR(
         () => (user?.id) ? `/api/threads/?user_id=${user?.id}` : null,
@@ -87,27 +84,34 @@ function ThreadList({ className, user }) {
         );
     }
 
+    function handleClick(thread) {
+        if (thread !== selectedThread) setSelectedThread(thread);
+        setExpanded(false);
+    }
+
     return (
         <ul className={`${className} grid auto-rows-min gap-2 overflow-x-hidden overflow-y-auto`}>
             {data?.data && data?.data.map(thread => (
                 <li key={thread.thread_id}>
-                    <button type="button" className="tile-rounded-trans-xs inline-flex items-center gap-2 w-full" data-selected={thread.thread_id === selectedThread?.thread_id}
-                            onClick={() => setSelectedThread(thread)}>
-                        {thread.image ? (
-                            <Image
-                                src={thread.image}
-                                alt={`Thread ${thread.name} icon`}
-                                className="size-4 aspect-square"
-                                priority
-                                quality={100}
-                            />
-                        ) : (
-                            <div className="aspect-square">
-                                <FontAwesomeIcon icon={faUsers} />
-                            </div>
-                        )}
-                        <span>{thread.name}</span>
-                        {thread.public && <span className="tile-rounded-accent-inline !px-2 text-200 font-normal !rounded-full">Public</span>}
+                    <button type="button" className="tile-rounded-trans-xs inline-flex items-center justify-between gap-2 w-full" data-selected={thread.thread_id === selectedThread?.thread_id}
+                            onClick={() => handleClick(thread)}>
+                        <div className="flex items-center gap-2">
+                            {thread.image ? (
+                                <Image
+                                    src={thread.image}
+                                    alt={`Thread ${thread.name} icon`}
+                                    className="size-4 aspect-square"
+                                    priority
+                                    quality={100}
+                                />
+                            ) : (
+                                <div className="aspect-square">
+                                    <FontAwesomeIcon icon={faUsers} />
+                                </div>
+                            )}
+                            <span className="text-left">{thread.name}</span>
+                        </div>
+                        {thread.public && <span className="tile-rounded-accent-inline !px-2 text-200 font-bold uppercase !rounded-full">Public</span>}
                     </button>
                 </li>
             ))}

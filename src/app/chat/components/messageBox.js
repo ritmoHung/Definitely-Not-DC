@@ -14,19 +14,24 @@ export default function MessageBox({ message }) {
                     <Image
                         src={message.image}
                         alt={`Thread ${thread.name} icon`}
-                        className="size-4 aspect-square"
+                        className="size-10 sm:size-12"
                         priority
                         quality={100}
                     />
                 ) : (
-                    <div className="w-12 aspect-square bg-gray-500 rounded-full"></div>
+                    <div className="size-10 sm:size-12 bg-gray-500 rounded-full"></div>
                 )}
             </div>
             <div className="message-info">
-                <span className="text-accent">{message?.user_id.substring(0, 6)}</span>
-                <span className="text-300 text-gray-500">
+                <span className="text-accent text-nowrap">{message?.user_id.substring(0, 6)}</span>
+                <span className="hidden xs:inline text-300 text-gray-500">
                     {new Date(message.updatedAt).toLocaleTimeString("en-US", {
                         year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "2-digit"
+                    })}
+                </span>
+                <span className="inline xs:hidden text-300 text-gray-500">
+                    {new Date(message.updatedAt).toLocaleDateString("en-US", {
+                        year: "numeric", month: "long", day: "numeric"
                     })}
                 </span>
             </div>

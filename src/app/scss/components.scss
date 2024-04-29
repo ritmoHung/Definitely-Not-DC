@@ -475,13 +475,25 @@
 @layer components {
     @mixin ia-props($size: "md") {
         @if $size == "sm" {
-            @apply h-10 px-[0.875rem] rounded-lg;
+            @apply h-7 sm:h-8 px-2 rounded-md;
+            &::not(input, textarea) {
+                @apply text-300;
+            }
         } @else if $size == "md" {
-            @apply h-9 sm:h-11 px-3 sm:px-4 rounded-lg;
+            @apply h-9 sm:h-10 px-3 rounded-lg;
+            &::not(input, textarea) {
+                @apply text-400;
+            }
         } @else if $size == "lg" {
-            @apply h-10 px-[0.875rem] rounded-lg;
+            @apply h-11 sm:h-12 px-4 rounded-xl;
+            &::not(input, textarea) {
+                @apply text-500;
+            }
         } @else if $size == "xl" {
-            @apply h-10 px-[0.875rem] rounded-lg;
+            @apply h-12 sm:h-14 px-5 rounded-xl;
+            &::not(input, textarea) {
+                @apply text-600;
+            }
         }
     }
 

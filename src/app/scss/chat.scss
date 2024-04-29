@@ -1,7 +1,7 @@
 @import "global";
 
 .message-container {
-    @apply flex flex-col-reverse gap-4 w-full;
+    @apply flex flex-col gap-4 w-full;
 
     & > .message-box {
         $grid-area: "icon info"
@@ -15,12 +15,16 @@
         }
 
         & > .message-info {
-            @apply flex items-baseline gap-2 [&_>_*]:text-nowrap;
+            @apply flex items-baseline gap-2;
             grid-area: info;
         }
 
         & > .message-content {
             grid-area: content;
+
+            & p {
+                word-break: break-all;
+            }
 
             & a {
                 @extend .text-accent;

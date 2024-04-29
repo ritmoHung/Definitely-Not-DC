@@ -90,6 +90,34 @@
     @include wrapper-props(4rem, 6rem, 1800px);
 }
 
+.chat-layout {
+    --base-size: 18rem;
+    --max-size: 20rem;
+    @apply grid md:grid-cols-[auto_1fr] w-screen h-svh overflow-hidden isolate;
+
+    & .threads-sidebar {
+        @apply fixed inset-0 right-auto md:static md:inset-auto;
+        @apply z-1 transition-all;
+        @apply w-screen xs:w-[var(--base-size)] md:w-[clamp(var(--base-size),_30vw,_var(--max-size))];
+
+        &[data-expanded="false"] {
+            @apply opacity-0 md:opacity-100;
+            @apply -translate-x-1/2 md:translate-x-0;
+        }
+        &[data-expanded="true"] {
+            @apply opacity-100 translate-x-0;
+        }
+    }
+
+    & .thread-content {
+        @apply z-2 transition-all;
+
+        &[data-expanded="true"] {
+            @apply translate-x-full xs:translate-x-[var(--base-size)] md:translate-x-0;
+        }
+    }
+}
+
 
 
 /* ---------------------------- COLORS ---------------------------- */

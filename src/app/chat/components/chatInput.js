@@ -20,13 +20,13 @@ export default function ChatInput({ className }) {
 
     const { addPopupMessage } = useContext(PopupContext);
     const selectedThread = useRecoilValue(threadAtom);
-    const isLoading = false;
 
     const textareaRef = useRef(null);
     const [input, setInput] = useState("");
     const [isEmpty, setIsEmpty] = useState(true);
+    const [isSending, setIsSending] = useState(false);
     const [isComposing, setIsComposing] = useState(false);
-    const disabled = isLoading || isEmpty;
+    const disabled = isEmpty || isSending;
 
     function handleResize() {
         const tx = textareaRef.current;
@@ -56,7 +56,7 @@ export default function ChatInput({ className }) {
     function handleKeyDown(e) {
         if(e.key === "Enter" && !e.shiftKey && !isComposing) {
             e.preventDefault();
-            if (isLoading) return;
+            if (disabled) return;
 
             handleSubmit(e);
         }
@@ -69,6 +69,7 @@ export default function ChatInput({ className }) {
 
     async function handleSubmit(e) {
         e.preventDefault();
+        setIsSending(true);
         
         try {
             const messageData = {
@@ -85,10 +86,12 @@ export default function ChatInput({ className }) {
 
             resetSize();
             resetInput();
+            setIsSending(false);
             if (res.level !== "log" && res.level !== "info") {
                 addPopupMessage({ message: res.message, level: res.level });
             }
         } catch (error) {
+            setIsSending(false);
             addPopupMessage({ message: error.message, level: error.level });
         }
     }
@@ -99,8 +102,8 @@ export default function ChatInput({ className }) {
                 <textarea
                     ref={textareaRef}
                     className="self-end input-border-rounded block w-full max-h-32 resize-none
-                               py-2 sm:py-[0.6rem] min-h-9 sm:min-h-11 placeholder:text-nowrap"
-                    data-size="md"
+                               py-3 min-h-11 sm:min-h-12 placeholder:text-nowrap"
+                    data-size="lg"
                     value={input}
                     rows={1}
                     placeholder="Send a message…"
@@ -110,7 +113,7 @@ export default function ChatInput({ className }) {
                     onKeyDown={handleKeyDown}
                     disabled={!selectedThread}
                 />
-                <ButtonSolid type="submit" title="Send message" disabled={disabled} square>
+                <ButtonSolid type="submit" title="Send message" disabled={disabled} size="lg" square>
                     <MingcuteSendPlaneFill />
                 </ButtonSolid>
             </FormSubmit>

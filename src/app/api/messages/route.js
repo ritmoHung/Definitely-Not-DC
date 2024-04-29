@@ -57,7 +57,7 @@ export async function GET(req) {
 
         await connectDB();
         const projection = "-_id -v";
-		const allMessages = await Message.find({ thread_id: threadId }, projection).sort({ createdAt: -1 });
+		const allMessages = await Message.find({ thread_id: threadId }, projection).sort({ createdAt: 1 });
 
         if (allMessages.length === 0) {
             message = `No messages.`;

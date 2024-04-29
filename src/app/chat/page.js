@@ -1,34 +1,28 @@
 "use client";
+import { useState } from "react";
 
 // Recoil
-import { useRecoilValue } from "recoil";
-import { threadAtom } from "@/app/utils/providers";
+import { atom, useRecoilValue } from "recoil";
 
-// Components
-import ThreadsNavbar from "./components/threadsNavbar";
-import ThreadMessages from "./components/threadMessages";
-import ChatInput from "./components/chatInput";
+// Components// Components & UI
+import ThreadCreateModal from "./components/threadCreateModal";
+import ThreadsSidebar from "./components/threadsSidebar";
+import ThreadContent from "./components/threadContent";
 
-// Font Awesome Icons
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHashtag } from "@fortawesome/free-solid-svg-icons";
-
-
+export const sidebarExpand = atom({
+    key: "sidebarExpand",
+    default: false,
+});
 
 export default function Chat() {
-    const selectedThread = useRecoilValue(threadAtom);
+    const expanded = useRecoilValue(sidebarExpand);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
-        <div className="grid grid-cols-[auto_1fr] h-svh overflow-hidden">
-            <ThreadsNavbar />
-            <div className="grid grid-rows-[auto_1fr_auto] bg-secondary overflow-y-auto">
-                <div className="flex items-center gap-2 p-4 bg-secondary shadow-lg">
-                    <FontAwesomeIcon className="text-gray-500" icon={faHashtag} />
-                    <span>{selectedThread?.slogan}</span>
-                </div>
-                <ThreadMessages className="p-4" />
-                <ChatInput className="p-4" />
-            </div>
+        <div className="chat-layout">
+            {isModalOpen && <ThreadCreateModal closeModal={() => setIsModalOpen(false)} />}
+            <ThreadsSidebar className="threads-sidebar" data-expanded={expanded} setIsModalOpen={setIsModalOpen} />
+            <ThreadContent className="thread-content" data-expanded={expanded} />
         </div>
     );
 }

@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export function ButtonTrans({ children, className, size = "md", square = false, type, title, selected, disabled, onClick }) {
+export function ButtonTrans({ children, className, size = "md", square = false, type = "button", title, selected, disabled, onClick, ...props }) {
     return (
         <button
             type={type}
@@ -10,13 +10,14 @@ export function ButtonTrans({ children, className, size = "md", square = false, 
             data-selected={selected}
             disabled={disabled}
             onClick={onClick}
+            {...props}
         >
             {children}
         </button>
     );
 }
 
-export function ButtonSolid({ children, className, size = "md", square = false, type, title, selected, disabled, onClick }) {
+export function ButtonSolid({ children, className, size = "md", square = false, type = "button", title, selected, disabled, onClick, ...props }) {
     return (
         <button
             type={type}
@@ -26,13 +27,14 @@ export function ButtonSolid({ children, className, size = "md", square = false, 
             data-selected={selected}
             disabled={disabled}
             onClick={onClick}
+            {...props}
         >
             {children}
         </button>
     );
 }
 
-export function ButtonOutline({ children, className, size = "md", square = false, type, title, selected, disabled, onClick }) {
+export function ButtonOutline({ children, className, size = "md", square = false, type = "button", title, selected, disabled, onClick, ...props }) {
     return (
         <button
             type={type}
@@ -42,6 +44,7 @@ export function ButtonOutline({ children, className, size = "md", square = false
             data-selected={selected}
             disabled={disabled}
             onClick={onClick}
+            {...props}
         >
             {children}
         </button>
