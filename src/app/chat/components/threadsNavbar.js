@@ -14,6 +14,7 @@ import { axiosFetcher } from "@/app/utils/fetcher";
 
 // Components & UI
 import ThreadCreateModal from "./threadCreateModal";
+import Loader from "@/app/components/loader";
 import { ButtonTrans, LinkTrans } from "@/app/ui/button";
 
 // Font Awesome Icons
@@ -25,17 +26,12 @@ import { faSquarePlus, faUsers, faGear } from "@fortawesome/free-solid-svg-icons
 export default function ThreadsNavbar({ className }) {
     const session = useSession();
     const user = session.data?.user;
-    const [isOpen, setIsOpen] = useState(false);
 
     return (
         <nav className={`${className} grid grid-rows-[auto_1fr_auto] p-2`}>
             {/* Toolbar */}
             <div className="p-1">
-                <ButtonTrans type="button" onClick={() => setIsOpen(true)}>
-                    <FontAwesomeIcon className="text-600 text-accent" icon={faSquarePlus} />
-                    <span className="hidden sm:inline">Create</span>
-                </ButtonTrans>
-                {isOpen && <ThreadCreateModal user={user} closeModal={() => setIsOpen(false)} />}
+                <ThreadCreateButton />
             </div>
 
             {/* Threads List */}
@@ -44,6 +40,20 @@ export default function ThreadsNavbar({ className }) {
             {/* User Info */}
             <UserInfo className="!p-2 !pb-0 !border-x-0 !border-b-0" user={user} />
         </nav>
+    );
+}
+
+function ThreadCreateButton() {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+        <div>
+            <ButtonTrans type="button" onClick={() => setIsOpen(true)}>
+                <FontAwesomeIcon className="text-600 text-accent" icon={faSquarePlus} />
+                <span className="hidden sm:inline">Create</span>
+            </ButtonTrans>
+            {isOpen && <ThreadCreateModal user={user} closeModal={() => setIsOpen(false)} />}
+        </div>
     );
 }
 
@@ -70,6 +80,12 @@ function ThreadList({ className, user }) {
             }
         }
     }, [data]);
+
+    if (isLoading) {
+        return (
+            <Loader className="grid place-content-center"></Loader>
+        );
+    }
 
     return (
         <ul className={`${className} grid auto-rows-min gap-2 overflow-x-hidden overflow-y-auto`}>
