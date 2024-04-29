@@ -1,4 +1,5 @@
 "use client";
+import { useSession } from "next-auth/react";
 import { useContext, useState } from "react";
 import { PopupContext } from "@/app/utils/popup";
 import { axiosFetcher } from "@/app/utils/fetcher";
@@ -11,7 +12,10 @@ import { ButtonSolid, ButtonOutline } from "@/app/ui/button";
 
 
 
-export default function ThreadCreateModal({ user, closeModal }) {
+export default function ThreadCreateModal({ closeModal }) {
+    const session = useSession();
+    const user = session.data?.user;
+
     const { addPopupMessage } = useContext(PopupContext);
     const [isPublic, setIsPublic] = useState(false);
     

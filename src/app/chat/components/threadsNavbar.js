@@ -52,7 +52,7 @@ function ThreadCreateButton() {
                 <FontAwesomeIcon className="text-600 text-accent" icon={faSquarePlus} />
                 <span className="hidden sm:inline">Create</span>
             </ButtonTrans>
-            {isOpen && <ThreadCreateModal user={user} closeModal={() => setIsOpen(false)} />}
+            {isOpen && <ThreadCreateModal closeModal={() => setIsOpen(false)} />}
         </div>
     );
 }
