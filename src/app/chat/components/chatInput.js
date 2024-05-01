@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { PopupContext } from "@/app/utils/popup";
 import { axiosFetcher } from "@/app/utils/fetcher";
@@ -102,7 +102,7 @@ export default function ChatInput({ className }) {
                 <textarea
                     ref={textareaRef}
                     className="self-end input-border-rounded block w-full max-h-32 resize-none
-                               py-3 min-h-11 sm:min-h-12 placeholder:text-nowrap"
+                               py-[0.65rem] min-h-11 sm:min-h-12 placeholder:text-nowrap"
                     data-size="lg"
                     value={input}
                     rows={1}

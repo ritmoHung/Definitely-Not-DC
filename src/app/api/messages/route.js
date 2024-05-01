@@ -5,12 +5,13 @@ import { CustomError, handleApiError } from "@/app/utils/error.server";
 
 // Mongoose
 import connectDB from "@/app/utils/db/connectDB";
+import Thread from "@/app/utils/db/models/thread";
 import Message from "@/app/utils/db/models/message";
 
 
 
 // # Create a new message
-// For everyone
+// For everyone; must be in the thread
 export async function POST(req) {
     let message, level, status;
 
@@ -49,15 +50,23 @@ export async function GET(req) {
     try {
         const threadId = req.nextUrl.searchParams.get("thread_id");
 
-        // TODO: Authorize
         const session = await auth();
-        if (false) {
-            throw new CustomError.AuthorizationError();
+		const thread = await Thread.findOne({
+            thread_id: threadId,
+            $or: [
+                { public: true },
+                { public: false, "members.user_id": session.user.id },
+            ]
+        }, "thread_id").lean();
+        if (!thread) {
+            throw new CustomError.AuthorizationError("You do not have permission to view this thread or it does not exist.");
         }
 
         await connectDB();
         const projection = "-_id -v";
-		const allMessages = await Message.find({ thread_id: threadId }, projection).sort({ createdAt: 1 });
+		const allMessages = await Message.find({ thread_id: threadId }, projection)
+                                         .sort({ createdAt: 1 })
+                                         .lean();
 
         if (allMessages.length === 0) {
             message = `No messages.`;

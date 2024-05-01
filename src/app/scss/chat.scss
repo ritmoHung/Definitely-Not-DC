@@ -1,41 +1,117 @@
 @import "global";
+@import "_mixins";
 
-.message-container {
-    @apply flex flex-col gap-4 w-full;
+@mixin typography() {
+    @apply grid;
 
-    & > .message-box {
-        $grid-area: "icon info"
-                    "icon content";
+    & > :not(h1, h2, h3, h4, h5, h6):has(+ h1) {
+        margin-block-end: 1.5rem;
+    }
 
-        @apply grid gap-x-4 gap-y-1 grid-cols-[auto_1fr];
-        grid-template-areas: $grid-area;
+    & > h1, & > :not(h1, h2, h3, h4, h5, h6):has(+ h2) {
+        margin-block-end: 1rem;
+    }
+    
+    & > h2, & > :not(h1, h2, h3, h4, h5, h6):has(+ h3) {
+        margin-block-end: 0.75rem;
+    }
+    
+    & > h3, & > :not(h1, h2, h3, h4, h5, h6):has(+ :is(h4, h5, h6)) {
+        margin-block-end: 0.5rem;
+    }
 
-        & > .message-icon {
-            grid-area: icon;
+    & > :not(h1, h2, h3, h4, h5, h6) + :not(h1, h2, h3, h4, h5, h6) {
+        margin-block-start: 0.5rem;
+    }
+
+    @include list();
+
+    p {
+        @apply whitespace-pre-wrap;
+        word-break: break-all;
+    }
+
+    a {
+        @extend .text-accent;
+        text-decoration: underline;
+        text-underline-offset: 0.25em;
+        text-decoration-thickness: 0.05em;
+    }
+
+    pre {
+        @apply my-2;
+    }
+
+    img {
+        @apply my-2 w-[min(100%,_45rem)] rounded-lg;
+    }
+
+    strong {
+        @apply font-bold;
+    }
+}
+
+
+@layer components {
+    .message-container {
+        @apply flex flex-col w-full;
+
+        & > .message-separator {
+            @apply grid grid-cols-[1fr_auto_1fr] items-center gap-4;
+
+            & > div {
+                @apply h-[1px] bg-gray-500;
+            }
         }
 
-        & > .message-info {
-            @apply flex items-baseline gap-2;
-            grid-area: info;
+        & .message-time, & .message-date {
+            @apply text-gray-500 text-300;
         }
-
-        & > .message-content {
-            grid-area: content;
-
-            & p {
-                word-break: break-all;
+    
+        & > .message-box {
+            $grid-area-info: "icon info";
+            $grid-area-content: "icon content";
+    
+            @apply grid gap-x-4 gap-y-1 grid-cols-[auto_1fr] hover:bg-gray-500 hover:bg-opacity-5;
+            &[data-content-only="true"] {
+                grid-template-areas: $grid-area-content;
+            }
+            &[data-content-only="false"] {
+                grid-template-areas: $grid-area-info $grid-area-content;
+            }
+    
+            & > .message-icon {
+                @apply flex justify-center;
+                grid-area: icon;
+            }
+    
+            & > .message-info {
+                @apply flex items-baseline gap-2;
+                grid-area: info;
             }
 
-            & a {
-                @extend .text-accent;
-                text-decoration: underline;
-                text-underline-offset: 0.25em;
-                text-decoration-thickness: 0.05em;
+            & .message-time {
+                @apply hidden mt-[0.3rem];
             }
 
-            & img {
-                @apply w-[min(100%,_45rem)] rounded-lg;
+            &:hover .message-time {
+                @apply inline;
+            }
+    
+            & > .message-content {
+                @apply max-w-6xl;
+                grid-area: content;
+                @include typography();
             }
         }
+    }
+}
+
+
+pre:has(code) {
+    @apply overflow-x-auto;
+
+    & > code {
+        @apply block w-fit overflow-x-auto whitespace-break-spaces;
     }
 }

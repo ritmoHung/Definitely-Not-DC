@@ -20,6 +20,10 @@
     font-family: var(--font-manrope), var(--font-noto-sans-tc), sans-serif;
 }
 
+.font-geist-mono {
+    font-family: var(--font-geist-mono), var(--font-noto-sans-tc), monospace;
+}
+
 @layer base {
     h1, h2, h3, h4, h5, h6 {
         @apply leading-[1.25];
@@ -34,17 +38,17 @@
     h3 {
         @apply text-500 font-black;
     }
-    h4 {
+    h4, h5 {
         @apply text-400 font-bold;
     }
     
     p {
-        @apply text-justify;
+        @apply text-justify leading-[1.75];
     }
-}
 
-.text-microprint {
-    @apply text-200 font-light leading-[1.25] tracking-normal;
+    code {
+        @extend .font-geist-mono;
+    }
 }
 
 
@@ -92,7 +96,7 @@
 
 .chat-layout {
     --base-size: 18rem;
-    --max-size: 20rem;
+    --max-size: 24rem;
     @apply grid md:grid-cols-[auto_1fr] w-screen h-svh overflow-hidden isolate;
 
     & .threads-sidebar {
@@ -117,6 +121,53 @@
         }
     }
 }
+
+@layer components {
+    .dropdown-layout {
+        @apply relative flex;
+    
+        &[data-empty="false"] .dropdown {
+            @apply grid #{!important};
+        }
+    
+        & > .dropdown-container {
+            @apply absolute top-full pt-4 z-2;
+
+            &[data-type="full"] {
+                @apply w-full;
+            }
+            &[data-type="auto"] {
+                @apply right-0 sm:right-1/2 sm:translate-x-1/2;
+                @apply lg:right-auto lg:left-1/2 lg:-translate-x-1/2;
+            }
+    
+            & .dropdown {
+                @apply hidden;
+                @apply motion-safe:transition-all;
+            
+                animation: fadeIn 150ms ease-in-out;
+            
+                & > .dropdown-item {
+                    @apply grid gap-2 p-2;
+                }
+            }
+        }
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            scale: 0.95;
+            transform: 0 -1rem;
+            transform-origin: top;
+        } to {
+            opacity: 1;
+            scale: 1;
+            transform: 0;
+        }
+    }
+}
+
 
 
 

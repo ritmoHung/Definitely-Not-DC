@@ -24,7 +24,7 @@ export default function Modal({ children, closeModal }) {
     }, []);
     return (
         <div className="modal-backdrop fixed grid inset-0 place-content-center bg-black bg-opacity-75 z-20">
-            <div className="tile-rounded-lg w-[clamp(15rem,_90vw,_20rem)]">
+            <div className="tile-rounded-xl w-[clamp(15rem,_90vw,_25rem)]">
                 {children}
             </div>
         </div>

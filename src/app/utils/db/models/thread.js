@@ -23,6 +23,11 @@ const threadSchema = new mongoose.Schema({
         required: true,
         default: uuidv4(),
     },
+    creator_id: {
+        type: String,
+        unique: false,
+        required: true,
+    },
     public: {
         type: Boolean,
         required: true,
@@ -32,10 +37,14 @@ const threadSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
+        minlength: [3, "Name must be at least 3 characters long."],
+        maxlength: [30, "Name must be no more that 30 characters long."],
     },
     slogan: {
         type: String,
         required: true,
+        minlength: [3, "Slogan must be at least 3 characters long."],
+        maxlength: [60, "Slogan must be no more that 60 characters long."],
     },
     image: {
         type: String,

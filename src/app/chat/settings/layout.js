@@ -1,6 +1,6 @@
 // Metadata
 const title = "設定";
-const description = "Settings";
+const description = "「絕不是 Discord」的設定頁面目前只能夠讓你登出 —— 真是太令人難過了。";
 const url = `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}/chat/settings`;
 export const metadata = {
     title,

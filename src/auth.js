@@ -13,10 +13,8 @@ const providers = [
             password: {},
         },
         authorize: async (credentials) => {
-            const baseUrl = process.env.VERCEL_BRANCH_URL ? `https://${process.env.VERCEL_BRANCH_URL}` : "http://localhost:3000";
-            let user;
+            let user = {};
 
-            console.log(baseUrl);
             try {
                 // Find if user exists in DB
                 let userInfo = { email: credentials.email };
@@ -24,25 +22,18 @@ const providers = [
 
                 if (userData) {
                     const match = await verifyPassword(credentials.password, userData.password);
-                    if (match) {
-                        user = {
-                            id: userData.user_id,
-                            name: userData.name,
-                            email: userData.email,
-                            image: userData.image,
-                        };
-                    }
+                    if (!match) throw new Error("PW: Password mismatch.");
                 } else {
                     // Directly creates user if DNE
                     userInfo.password = await hashPassword(credentials.password);
+                    userInfo.account_id = userInfo.email.split("@")[0];
                     userData = await createUser(userInfo);
-                    user = {
-                        id: userData.user_id,
-                        name: userData.name,
-                        email: userData.email,
-                        image: userData.image,
-                    };
                 }
+
+                // Assign returned data to 'user'
+                const { user_id: id, ...others } = userData;
+                user.id = id;
+                Object.assign(user, others);
 
                 return user;
             } catch(error) {
@@ -75,21 +66,21 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             } else {
                 try {
                     // Find if user exists in DB
-                    const userInfo = {
-                        email: user.email,
-                        name: user.name || profile.name,
-                        image: user.image || profile.picture,
-                    };
+                    let userInfo = { email: user.email };
                     let userData = await authenticateUser(userInfo);
 
                     // Directly creates user if DNE
-                    if (!userData) userData = await createUser(userInfo);
+                    if (!userData) {
+                        userInfo.name = user.name || profile.name;
+                        userInfo.image = user.image || profile.picture;
+                        userInfo.account_id = userInfo.email.split("@")[0];
+                        userData = await createUser(userInfo);
+                    }
 
-                    user.id = userData.user_id;
-                    user.name = userData.name;
-                    user.email = userData.email;
-                    user.image = userData.image;
-                    user.status = userData.status;
+                    // Assign returned data to 'user'
+                    const { user_id: id, ...others } = userData;
+                    user.id = id;
+                    Object.assign(user, others);
 
                     return true;
                 } catch(error) {
@@ -103,8 +94,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             if (pathname.startsWith("/chat")) return !!auth;
             return true;
         },
+        async jwt({ token, user }) {
+            if (user) token.aid = user.account_id;
+            return token;
+        },
         session({ session, token }) {
             session.user.id = token.sub;
+            session.user.aid = token.aid;
             return session;
         },
     },

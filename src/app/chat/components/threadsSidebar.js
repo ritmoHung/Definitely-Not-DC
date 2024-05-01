@@ -1,12 +1,13 @@
 "use client";
 import { useSession } from "next-auth/react";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { PopupContext } from "@/app/utils/popup";
 import Image from "next/image";
+import UserIcon from "/public/img/icon.png";
 
 // Recoil
-import { useRecoilState } from "recoil";
-import { threadAtom } from "@/app/utils/providers";
+import { useRecoilValue, useRecoilState } from "recoil";
+import { userProfileAtom, threadAtom } from "@/app/utils/providers";
 import { sidebarExpand } from "../page";
 
 // SWR
@@ -70,11 +71,10 @@ function ThreadList({ className, user }) {
     }, [error]);
     useEffect(() => {
         if (data) {
-            if (data.level === "log") {
-                console.log(data.message);
-            } else {
-                addPopupMessage({ message: data.message, level: data.level });
-            }
+            // if (data.data.length > 0 && !selectedThread) setSelectedThread(data.data[0]);
+            (data.level === "log")
+                ? console.log(data.message)
+                : addPopupMessage({ message: data.message, level: data.level });
         }
     }, [data]);
 
@@ -84,16 +84,29 @@ function ThreadList({ className, user }) {
         );
     }
 
+    function requestNotificationPermission() {
+        if (!("Notification" in window)) {
+            console.warn("Browser does not support notifications");
+        } else if (Notification.permission === "granted") {
+            return;
+        } else if (Notification.permission !== "denied") {
+            Notification.requestPermission().then(permission => {
+                console.log("Notification permission:", permission);
+            });
+        }
+    }
+
     function handleClick(thread) {
         if (thread !== selectedThread) setSelectedThread(thread);
         setExpanded(false);
+        requestNotificationPermission();
     }
 
     return (
         <ul className={`${className} grid auto-rows-min gap-2 overflow-x-hidden overflow-y-auto`}>
             {data?.data && data?.data.map(thread => (
                 <li key={thread.thread_id}>
-                    <button type="button" className="tile-rounded-trans-xs inline-flex items-center justify-between gap-2 w-full" data-selected={thread.thread_id === selectedThread?.thread_id}
+                    <button type="button" className="tile-rounded-trans-sm inline-flex items-center justify-between gap-2 w-full" data-selected={thread.thread_id === selectedThread?.thread_id}
                             onClick={() => handleClick(thread)}>
                         <div className="flex items-center gap-2">
                             {thread.image ? (
@@ -120,24 +133,28 @@ function ThreadList({ className, user }) {
 }
 
 function UserInfo({ className, user }) {
+    const userProfile = useRecoilValue(userProfileAtom);
+
     return (
         <div className={`${className} tile-border-trans-even-xs flex items-center justify-between`}>
             <div className="flex items-center gap-4">
                 <div className="relative w-10 aspect-square">
-                    {user?.image && (
-                        <Image
-                            src={user?.image}
-                            alt={`${user?.name}'s avatar`}
-                            className="object-contain w-full rounded-[100vw]" fill
-                            sizes="2.5rem"
-                            priority
-                            quality={100}
-                        />
-                    )}
+                    <Image
+                        src={user?.image ? user?.image : UserIcon}
+                        alt={`${user?.name}'s avatar`}
+                        className="object-contain w-full rounded-[100vw]" fill
+                        sizes="2.5rem"
+                        priority
+                        quality={100}
+                    />
                 </div>
-                <div>
-                    <span>{user?.name}</span>
-                    <span>{user?.status}</span>
+                <div className="grid">
+                    <span className={`${user?.name ? "font-semibold" : "text-gray-500"} truncate`}>
+                        {user?.name ? user.name : "Having your good name..."}
+                    </span>
+                    <span className="text-gray-500 text-300 truncate">
+                        {userProfile?.status ? userProfile?.status : "☝️君をハナセナイ🫴"}
+                    </span>
                 </div>
             </div>
             <div className="flex items-center gap-8">

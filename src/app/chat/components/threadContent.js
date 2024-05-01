@@ -21,7 +21,7 @@ export default function ThreadContent({ className, ...props }) {
 
     return (
         <div className={`${className} grid grid-rows-[auto_1fr_auto] bg-secondary overflow-y-auto`} {...props}>
-            <div className="grid grid-cols-[auto_auto_1fr] items-center gap-3 p-4 bg-secondary shadow-lg">
+            <div className="grid grid-cols-[auto_auto_1fr] items-center gap-3 min-h-14 p-4 bg-secondary shadow-lg">
                 <ButtonTrans title="Toggle sidebar" className="md:hidden" aria-controls="primary-sidebar" aria-expanded={expanded}
                              onClick={() => setExpanded(prevState => !prevState)} size="sm" square>
                     <FontAwesomeIcon icon={faBars} className="text-400" />
@@ -29,7 +29,7 @@ export default function ThreadContent({ className, ...props }) {
                 <FontAwesomeIcon className="text-gray-500" icon={faHashtag} />
                 <span className="truncate">{selectedThread?.slogan}</span>
             </div>
-            <ThreadMessages className="p-4" />
+            <ThreadMessages />
             <ChatInput className="p-4" />
         </div>
     );

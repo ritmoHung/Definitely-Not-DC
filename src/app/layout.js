@@ -3,6 +3,7 @@ import Providers from "@/app/utils/providers";
 
 // Google Fonts
 import { Manrope, Noto_Sans_TC } from "next/font/google";
+import { GeistMono } from "geist/font/mono";
 const manrope = Manrope({
     weight: ["variable"],
     style: ["normal"],
@@ -23,13 +24,12 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
 
-// Data Analysis
-import { Analytics } from "@vercel/analytics/react";
+// Speed Insights
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 // Metadata
 const title = "Def Not Discord";
-const description = "歡迎來到 Def Not Discord —— 儘管他真的長得很像 Discord。";
+const description = "歡迎來到「絕不是 Discord」—— 儘管它真的長得很像 Discord...嗎？";
 const url = `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
 export const metadata = {
     metadataBase: new URL(url ?? "http://localhost:3000"),
@@ -63,11 +63,10 @@ export default async function RootLayout({ children }) {
                 <link rel="icon" href="/icon?<generated>" type="image/<generated>" sizes="<generated>" />
                 <link rel="apple-touch-icon" href="/apple-icon?<generated>" type="image/<generated>" sizes="<generated>" />
             </head>
-			<body className={`${manrope.variable} ${notoSansTC.variable}`}>
+			<body className={`${manrope.variable} ${notoSansTC.variable} ${GeistMono.variable}`}>
                 <Providers>
                     {children}
                 </Providers>
-                <Analytics />
                 <SpeedInsights />
             </body>
 		</html>

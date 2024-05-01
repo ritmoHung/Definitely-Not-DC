@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 
 // Metadata
 const title = "聊天";
-const description = "歡迎來到 Def Not Discord —— 儘管他真的長得很像 Discord。";
+const description = "在「絕不是 Discord」，你仍然絕對能夠聊天。";
 const url = `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}/chat`;
 export const metadata = {
     metadataBase: new URL(url ?? "http://localhost:3000"),

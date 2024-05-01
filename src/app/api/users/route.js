@@ -36,4 +36,32 @@ export async function POST(req) {
     return NextResponse.json({ data, message, level }, { status });
 }
 
-// ? No GET function: Not allowed to get all exist users
+// Search for users
+// For everyone
+export async function GET(req) {
+    let message, level, status;
+    let data = [];
+
+	try {
+        const query = req.nextUrl.searchParams.get("query");
+        if (!query) throw new CustomError.BadRequestError("Query required.");
+
+		await connectDB();
+		// Create a new user using the User model
+		const users = await User.find({
+            $or: [
+                { name: { $regex: query, $options: "i" } },
+                { account_id: { $regex: query, $options: "i" } }
+            ]
+        }).select("name account_id -_id").lean();
+
+		data = users;
+        message = "Searched users successfully.";
+        level = "log";
+        status = 200;
+	} catch (error) {
+        ({ message, level, status } = handleApiError(error));
+    }
+
+    return NextResponse.json({ data, message, level }, { status });
+}

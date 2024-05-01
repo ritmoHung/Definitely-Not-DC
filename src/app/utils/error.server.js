@@ -40,6 +40,12 @@ class CustomBaseError extends Error {
     }
 }
 
+class BadRequestError extends CustomBaseError {
+    constructor(message = "Bad request.", level = "error", status = 400) {
+        super(message, level, status);
+    }
+}
+
 class AuthorizationError extends CustomBaseError {
     constructor(message = "Access denied.", level = "error", status = 403) {
         super(message, level, status);
@@ -47,13 +53,7 @@ class AuthorizationError extends CustomBaseError {
 }
 
 class NotFoundError extends CustomBaseError {
-    constructor(message = "Not Found.", level = "error", status = 400) {
-       super(message, level, status);
-    }
-}
-
-class CreationError extends CustomBaseError {
-    constructor(message = "Creation failed.", level = "error", status = 500) {
+    constructor(message = "Not Found.", level = "error", status = 404) {
        super(message, level, status);
     }
 }
@@ -64,9 +64,16 @@ class ConflictError extends CustomBaseError {
     }
 }
 
+class CreationError extends CustomBaseError {
+    constructor(message = "Creation failed.", level = "error", status = 500) {
+       super(message, level, status);
+    }
+}
+
 export const CustomError = {
+    BadRequestError,
     AuthorizationError,
     NotFoundError,
-    CreationError,
     ConflictError,
+    CreationError,
 }

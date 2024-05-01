@@ -47,26 +47,21 @@
 
 
 /* -------------------------- LIST PROP -------------------------- */
-$children-margin: 3ch;
+$before-width: 3ch;
 
 @mixin list-props() {
-    display: grid;
+    @apply grid;
     row-gap: 0.25rem;
     // TODO: iOS devices starts from 0 instead of 1
     counter-reset: list-item;
 }
 @mixin list-item-props() {
-    display: grid;
-    grid-template-areas: "icon content"
-                         "icon children";
-    grid-template-columns: auto 1fr;
-    grid-template-rows: auto auto;
-    list-style-type: none;
+    @apply relative list-none;
+    margin-inline-start: $before-width;
 }
 @mixin list-item-before-props() {
-    display: block;
-    grid-area: icon;
-    width: $children-margin;
+    @apply absolute left-0 top-0 block -translate-x-full;
+    width: $before-width;
 }
 
 @mixin list() {
@@ -94,19 +89,12 @@ $children-margin: 3ch;
             &::before {
                 @include list-item-before-props;
                 content: counter(list-item) ".";
-                padding-block-start: 0.18em;
-                font-family: var(--font-jetbrains-mono), var(--font-noto-sans-tc), sans-serif;
-                font-size: 0.9em;
+
+                @extend .font-geist-mono;
                 padding-inline-end: 0.5ch;
                 text-align: right;
             }
         }
-    }
-    li > span {
-        grid-area: content;
-    }
-    li > div {
-        grid-area: children;
     }
 }
 

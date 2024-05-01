@@ -6,6 +6,7 @@ import { CustomError, handleApiError } from "@/app/utils/error.server";
 // Mongoose
 import connectDB from "@/app/utils/db/connectDB";
 import Thread from "@/app/utils/db/models/thread";
+import User from "@/app/utils/db/models/user";
 
 
 
@@ -23,6 +24,15 @@ export async function POST(req) {
         await connectDB();
 		const threadData = await req.json();
 
+        // Fetch member profiles
+        const userProfiles = await User.find({
+            "account_id": { $in: threadData.members }
+        }, "user_id name image -_id").lean();
+        if (userProfiles.length !== threadData.members.length) {
+            throw new CustomError.NotFoundError("Some or all users not found by account IDs.");
+        }
+
+        threadData.members = userProfiles;
         const newThread = new Thread(threadData);
         const createdThread = await newThread.save();
 

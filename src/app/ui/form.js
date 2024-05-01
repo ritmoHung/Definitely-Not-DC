@@ -10,7 +10,7 @@ export function FormSubmit({ children, className, id, handleSubmit }) {
 }
 
 export function FormInput({ className, size = "md", type = "text", id, name, label = "",
-                            placeholder = "", defaultValue = "", required = false, showLabel = false }) {
+                            placeholder = "", value, required = false, showLabel = false, ...props }) {
     const [blurOnce, setBlurOnce] = useState(false);
     const [isValid, setIsValid] = useState(true);
 
@@ -35,10 +35,11 @@ export function FormInput({ className, size = "md", type = "text", id, name, lab
                 data-size={size}
                 data-valid={isValid}
                 placeholder={placeholder}
-                defaultValue={defaultValue}
+                value={value}
                 required={required}
                 onChange={handleChange}
                 onBlur={handleBlur}
+                {...props}
             ></input>
         </div>
     );
