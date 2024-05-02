@@ -10,8 +10,10 @@ import { SignInPanel } from "@/app/components/signpage/signInPanel";
 export default function Login() {
     const { addPopupMessage } = useContext(PopupContext);
     const router = useRouter();
-    let success = useSearchParams().get("success");
-    let error = useSearchParams().get("error");
+    const searchParams = useSearchParams();
+
+    let success = searchParams.get("success");
+    let error = searchParams.get("error");
 
     useEffect(() => {
         if (success) {
