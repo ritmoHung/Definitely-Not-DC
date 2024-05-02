@@ -16,6 +16,7 @@ import MessageBox from "./messageBox";
 // Font Awesome Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHashtag } from "@fortawesome/free-solid-svg-icons";
+import Loader from "@/app/components/loader";
 
 
 
@@ -83,14 +84,19 @@ export default function ThreadMessages({ className }) {
             {/* // ? Notice that the order of components is reversed because of 'flex-col-reverse' */}
             {/* Messages */}
             <div className="message-container">
-                {data?.data && data.data.map((msg, index, arr) => {
-                    const prevMsg = index > 0 ? arr[index - 1] : null;
-                    return (
-                        <MessageBox key={index} className="px-4 py-2" message={msg}
-                                    prevUserId={prevMsg ? prevMsg.user_id : null}
-                                    prevUpdatedAt={prevMsg ? prevMsg.updatedAt : null} />
-                    );
-                })}
+                {isLoading ? (
+                    <Loader className="grid place-content-center" />
+                ) : (
+                    data?.data && data.data.map((msg, index, arr) => {
+                        const prevMsg = index > 0 ? arr[index - 1] : null;
+                        return (
+                            <MessageBox key={index} className="px-4 py-2" message={msg}
+                                        prevUserId={prevMsg ? prevMsg.user_id : null}
+                                        prevUpdatedAt={prevMsg ? prevMsg.updatedAt : null} />
+                        );
+                    })
+                )}
+                
             </div>
 
             {/* Welcome Message */}
