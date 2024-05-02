@@ -37,7 +37,7 @@ export default async function ChatLayout({ children }) {
     const session = await auth();
     if (!session?.user.id) {
         const errorMessage = encodeURIComponent("You are not signed in.");
-        redirect(`/login?error=${errorMessage}`);
+        redirect(`/signin?error=${errorMessage}`);
     }
 
     return (

@@ -1,4 +1,4 @@
-export default function LoginDeco({ className }) {
+export default function SignDeco({ className }) {
     return (
         <div className={`${className} relative grid [&_>_*]:absolute [&_>_*]:size-[1em]`}>
             <div className="triangle-grad-sp-1 scale-[6] rotate-[30deg]

@@ -34,7 +34,7 @@ export default function ThreadContent({ className, ...props }) {
             ) : (
                 <div className="grid place-content-center place-items-center">
                     <h2>Wanna chat?</h2>
-                    <span className="text-gray-500">Open the sidebar to select a joined thread!</span>
+                    <span className="text-gray-500">Click on a joined thread in the sidebar!</span>
                 </div>
             )}
             <ChatInput className="p-4" />

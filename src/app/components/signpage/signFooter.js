@@ -1,4 +1,4 @@
-export default function LoginFooter({ className }) {
+export default function SignFooter({ className }) {
     return (
         <div className={`${className} grid grid-flow-row md:grid-cols-[1fr_auto_auto]
                         justify-items-center md:justify-items-start

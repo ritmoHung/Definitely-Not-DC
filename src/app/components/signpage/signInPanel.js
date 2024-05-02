@@ -1,8 +1,9 @@
 "use client";
 import { Fragment, useState, useEffect } from "react";
-import { SignInWithCreds, SignInWithProvider } from "@/app/components/signIn";
+import Link from "next/link";
 
-// UI
+// Components & UI
+import { SignInWithCreds, SignInWithProvider } from "@/app/components/signIn";
 import { FormInput } from "@/app/ui/form";
 
 const providerMap = [
@@ -21,7 +22,7 @@ const titles = [
     ["DNDC，", "啟動！"],
 ];
 
-export default function LoginPanel({ className }) {
+export function SignInPanel({ className }) {
     const [title, setTitle] = useState([]);
     
     useEffect(() => {
@@ -53,6 +54,12 @@ export default function LoginPanel({ className }) {
                         <FormInput type="email" id="cred-email" name="email" placeholder="Email" required />
                         <FormInput type="password" id="cred-password" name="password"  placeholder="Password" required />
                     </SignInWithCreds>
+
+                    {/* Sign Up Link */}
+                    <span className="grid xs:inline text-gray-500 text-center">
+                        Don't have an account?&nbsp;
+                        <Link href="/signup" className="text-accent">Sign up.</Link>
+                    </span>
 
                     {/* Separator */}
                     <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 uppercase">
