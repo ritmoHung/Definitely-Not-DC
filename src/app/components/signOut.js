@@ -1,21 +1,18 @@
-import { signOut } from "@/auth";
+import { signOut } from "next-auth/react";
 
 // UI
 import { ButtonSolid } from "@/app/ui/button";
 
-export async function SignOut() {
+export function SignOut() {
     const title = "Sign Out";
 
+    function handleClick() {
+        signOut({ callbackUrl: "/" });
+    }
+
 	return (
-		<form
-			action={async () => {
-				"use server";
-				await signOut({ redirectTo: "/" });
-			}}
-		>
-            <ButtonSolid type="submit" title={title} className="inline-grid">
-                <span>{title}</span>
-            </ButtonSolid>
-		</form>
+        <ButtonSolid title={title} className="inline-grid" onClick={handleClick}>
+            <span>{title}</span>
+        </ButtonSolid>
 	);
 }
