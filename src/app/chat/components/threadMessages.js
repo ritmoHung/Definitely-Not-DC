@@ -96,7 +96,6 @@ export default function ThreadMessages({ className }) {
                         );
                     })
                 )}
-                
             </div>
 
             {/* Welcome Message */}

@@ -57,7 +57,7 @@ export function SignInPanel({ className }) {
 
                     {/* Sign Up Link */}
                     <span className="grid xs:inline text-gray-500 text-center">
-                        Don't have an account?&nbsp;
+                        Don&apos;t have an account?&nbsp;
                         <Link href="/signup" className="text-accent">Sign up.</Link>
                     </span>
 
