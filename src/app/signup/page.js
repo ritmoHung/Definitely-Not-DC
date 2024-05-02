@@ -10,8 +10,15 @@ import { SignUpPanel } from "@/app/components/signpage/signUpPanel";
 export default function Login() {
     const { addPopupMessage } = useContext(PopupContext);
     const router = useRouter();
+    let success = useSearchParams().get("success");
     let error = useSearchParams().get("error");
 
+    useEffect(() => {
+        if (success) {
+            addPopupMessage({ message: success, level: "success" });
+            router.push("/signup");
+        }
+    }, [success]);
     useEffect(() => {
         if (error) {
             addPopupMessage({ message: error, level: "error" });

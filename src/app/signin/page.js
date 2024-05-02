@@ -10,8 +10,15 @@ import { SignInPanel } from "@/app/components/signpage/signInPanel";
 export default function Login() {
     const { addPopupMessage } = useContext(PopupContext);
     const router = useRouter();
+    let success = useSearchParams().get("success");
     let error = useSearchParams().get("error");
 
+    useEffect(() => {
+        if (success) {
+            addPopupMessage({ message: success, level: "success" });
+            router.push("/signin");
+        }
+    }, [success]);
     useEffect(() => {
         if (error) {
             if (error === "CredentialsSignin") error = "Incorrect email or password.";

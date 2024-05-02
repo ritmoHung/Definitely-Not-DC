@@ -1,41 +1,44 @@
-import Link from "next/link";
+"use client";
+import { useRouter } from "next/navigation";
 import { axiosFetcher } from "@/app/utils/fetcher";
 
 // Components & UI
+import Link from "next/link";
 import { FormSubmit, FormInput } from "@/app/ui/form";
 import { ButtonSolid } from "@/app/ui/button";
 
 
 
 export function SignUpPanel({ className }) {
-    const baseUrl = process.env.VERCEL_BRANCH_URL ? `https://${process.env.VERCEL_BRANCH_URL}` : "http://localhost:3000";
+    const router = useRouter();
+    
     async function handleSubmit(e) {
+        e.preventDefault();
         const formData = new FormData(e.target);
         const userInfo = {
             email: formData.get("signup-email"),
-            password: formData.get("signup-password")
+            password: formData.get("signup-password"),
         };
 
         try {
             const res = await axiosFetcher("/api/signUp", {
-                baseUrl,
                 method: "POST",
                 data: userInfo,
             });
             
-            if (res.data) {
-                console.log(res.data);
+            if (res.level === "log") {
+                console.log(res.message);
             } else {
-                throw new Error("An error occurred during the process");
+                router.push(`/${res?.data ? "signin" : "signup"}?${res?.data ? "success" : "error"}=${encodeURIComponent(res.message)}`);
             }
         } catch (error) {
-            throw new Error(`USER::CREATE: ${error.message}`);
+            router.push(`/signup?error=${encodeURIComponent(error.message)}`);
         }
     }
 
     return (
         <div className={`${className} tile-rounded-xl w-[clamp(18rem,_90vw,_24rem)] sm:m-8 shadow-2xl`}>
-            <div className="my-4">
+            <div className="my-2">
                 {/* Title */}
                 <h1 className="mb-6 font-jb-mono">
                     註冊

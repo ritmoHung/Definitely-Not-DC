@@ -35,7 +35,7 @@ export function SignInPanel({ className }) {
 
     return (
         <div className={`${className} tile-rounded-xl w-[clamp(18rem,_90vw,_30rem)] sm:m-8 shadow-2xl`}>
-            <div className="my-4">
+            <div className="my-2">
                 {/* Title */}
                 <h1 className="mb-6 font-jb-mono">
                     {title.map((words, index) => (
