@@ -35,7 +35,7 @@ export default function MessageBox({ className, message, prevUserId, prevUpdated
         <>
             {/* Separator */}
             {!sameDay && (
-                <div className={`${className} !pe-0 message-separator`}>
+                <div className={`${className} message-separator`}>
                     <div></div>
                     <span className="message-date">
                         {thisDate.toLocaleDateString("en-US", {

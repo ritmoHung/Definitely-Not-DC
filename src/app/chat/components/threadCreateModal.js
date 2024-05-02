@@ -5,7 +5,7 @@ import { PopupContext } from "@/app/utils/popup";
 import { v4 as uuidv4 } from "uuid";
 
 // SWR
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { axiosFetcher } from "@/app/utils/fetcher";
 
 // UI
@@ -63,6 +63,7 @@ export default function ThreadCreateModal({ closeModal }) {
             });
 
             closeModal();
+            mutate(`/api/threads/?user_id=${user?.id}`);
             if (res.level === "log") {
                 console.log(res.message);
             } else {
