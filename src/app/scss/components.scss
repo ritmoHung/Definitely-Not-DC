@@ -498,6 +498,17 @@
     }
 
     // # Buttons
+    @mixin btn-trans($theme) {
+        &:hover, &:focus-visible {
+            background-color: map-get($theme, "hover-bg-color");
+        }
+        &:active {
+            background-color: map-get($theme, "active-bg-color");
+        }
+        &:disabled {
+            @apply opacity-50;
+        }
+    }
     @mixin btn-solid($theme) {
         color: map-get($theme, "text-color");
         background-color: map-get($theme, "bg-color");
@@ -558,7 +569,9 @@
         @apply motion-safe:transition-all;
     }
     .btn-trans {
-
+        @include customThemed($btn-trans-schema) using ($theme) {
+            @include btn-trans($theme);
+        }
     }
     .btn-solid {
         @include themed($btn-solid-accent-schema) using ($theme) {

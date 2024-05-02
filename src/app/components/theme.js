@@ -2,6 +2,9 @@ import { useState, useContext } from "react";
 import { ThemeContext } from "@/app/utils/providers";
 import { themes, palettes } from "@/app/utils/constants/colors";
 
+// Components
+import { ButtonTrans } from "../ui/button";
+
 // Font Awesome Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun, faMoon, faSwatchbook, faDroplet, faAngleDown } from "@fortawesome/free-solid-svg-icons";
@@ -23,10 +26,10 @@ export function ThemeToggle() {
     }
 
     return (
-        <button className="text-300" onClick={changeTheme}>
+        <ButtonTrans title="Theme toggle" className="text-300" onClick={changeTheme} square>
             {theme === "light" && <FontAwesomeIcon icon={faSun} />}
             {theme === "dark" && <FontAwesomeIcon icon={faMoon} />}
-        </button>
+        </ButtonTrans>
     );
 }
 
@@ -36,18 +39,18 @@ export function PaletteToggle() {
     function changePalette() {
         switch (palette) {
             case "discord":
-                setTheme("orange");
+                setPalette("citrus");
                 break;
-            case "orange":
-                setTheme("discord");
+            case "citrus":
+                setPalette("discord");
                 break;
         }
     }
 
     return (
-        <button className="text-300" onClick={changePalette}>
+        <ButtonTrans title="Palette toggle" className="text-300" onClick={changePalette} square>
             <FontAwesomeIcon icon={faDroplet} />
-        </button>
+        </ButtonTrans>
     );
 }
 

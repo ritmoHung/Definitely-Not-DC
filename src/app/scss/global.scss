@@ -96,7 +96,7 @@
 
 .chat-layout {
     --base-size: 18rem;
-    --max-size: 22rem;
+    --max-size: 24rem;
     @apply grid md:grid-cols-[auto_1fr] w-screen h-svh overflow-hidden isolate;
 
     & .threads-sidebar {

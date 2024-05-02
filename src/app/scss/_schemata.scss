@@ -166,16 +166,21 @@ $tile-border-accent-schema: (
 );
 
 /* --------------------------- BUTTONS --------------------------- */
-$btn-schema: (
-    text-color:(
-        color: 500
-    ),
-    hover-text-color: (
+$btn-trans-schema: (
+    hover-bg-color: (
         light: (
-            color: 800
+            color: 200
         ),
         dark: (
-            color: 200
+            color: 700
+        ),
+    ),
+    active-bg-color: (
+        light: (
+            color: 300
+        ),
+        dark: (
+            color: 600
         ),
     ),
 );

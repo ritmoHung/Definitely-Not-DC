@@ -16,6 +16,7 @@ import { axiosFetcher } from "@/app/utils/fetcher";
 
 // Components & UI
 import Loader from "@/app/components/loader";
+import { ThemeToggle, PaletteToggle } from "@/app/components/theme";
 import { ButtonTrans, LinkTrans } from "@/app/ui/button";
 
 // Font Awesome Icons
@@ -136,7 +137,7 @@ function UserInfo({ className, user }) {
     const userProfile = useRecoilValue(userProfileAtom);
 
     return (
-        <div className={`${className} tile-border-trans-even-xs flex items-center justify-between`}>
+        <div className={`${className} tile-border-trans-even-xs flex items-center gap-2 justify-between`}>
             <div className="flex items-center gap-4">
                 <div className="relative w-10 aspect-square">
                     <Image
@@ -157,7 +158,9 @@ function UserInfo({ className, user }) {
                     </span>
                 </div>
             </div>
-            <div className="flex items-center gap-8">
+            <div className="flex items-center gap-1">
+                <ThemeToggle />
+                <PaletteToggle />
                 <LinkTrans href="/chat/settings" square>
                     <FontAwesomeIcon icon={faGear} />
                 </LinkTrans>
