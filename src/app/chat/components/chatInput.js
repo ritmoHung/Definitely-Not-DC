@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { PopupContext } from "@/app/utils/popup";
 import { axiosFetcher } from "@/app/utils/fetcher";
@@ -11,7 +11,11 @@ import { threadAtom } from "@/app/utils/providers";
 
 // UI
 import { FormSubmit } from "@/app/ui/form";
-import { ButtonSolid } from "@/app/ui/button";
+import { ButtonTrans, ButtonSolid } from "@/app/ui/button";
+
+// Font Awesome Icons
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faImage } from "@fortawesome/free-solid-svg-icons";
 
 
 
@@ -98,7 +102,10 @@ export default function ChatInput({ className }) {
 
     return (
         <div className={`${className} grid`}>
-            <FormSubmit className="grid-cols-[1fr_auto]" handleSubmit={handleSubmit}>
+            <FormSubmit className="grid-cols-[auto_1fr_auto]" handleSubmit={handleSubmit}>
+                <div className="flex gap-2">
+                    <ImageButton />
+                </div>
                 <textarea
                     ref={textareaRef}
                     className="self-end input-border-rounded block w-full max-h-32 resize-none
@@ -113,11 +120,51 @@ export default function ChatInput({ className }) {
                     onKeyDown={handleKeyDown}
                     disabled={!selectedThread}
                 />
-                <ButtonSolid type="submit" title="Send message" disabled={disabled} size="lg" square>
-                    <MingcuteSendPlaneFill />
-                </ButtonSolid>
+                <div className="flex gap-2">
+                    <SendButton disabled={disabled} />
+                </div>
             </FormSubmit>
         </div>
+    );
+}
+
+function ImageButton({ className, ...props }) {
+    function handleClick() {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = "image/*";
+        input.onchange = (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const imageWindow = window.open("");
+                        imageWindow.document.write(`<img src="${img.src}" alt="Loaded Image"/>`);
+                    }
+                    img.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        };
+
+        input.click();
+    }
+
+    return (
+        <ButtonTrans title="Add image" size="lg" className={`${className}`}
+                     onClick={handleClick} {...props} square>
+            <FontAwesomeIcon icon={faImage} />
+        </ButtonTrans>
+    );
+}
+
+function SendButton({ className, ...props }) {
+    return (
+        <ButtonSolid type="submit" title="Send message" size="lg" {...props} square>
+            <MingcuteSendPlaneFill />
+        </ButtonSolid>
     );
 }
 
