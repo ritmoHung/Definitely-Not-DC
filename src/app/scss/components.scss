@@ -476,22 +476,22 @@
     @mixin ia-props($size: "md") {
         @if $size == "sm" {
             @apply h-7 sm:h-8 px-3 rounded-md;
-            &::not(textarea) {
+            &:not(textarea) {
                 @apply text-300;
             }
         } @else if $size == "md" {
             @apply h-9 sm:h-10 px-4 rounded-lg;
-            &::not(textarea) {
+            &:not(textarea) {
                 @apply text-400;
             }
         } @else if $size == "lg" {
             @apply h-11 sm:h-12 px-5 rounded-xl;
-            &::not(textarea) {
+            &:not(textarea) {
                 @apply text-500;
             }
         } @else if $size == "xl" {
             @apply h-12 sm:h-14 px-6 rounded-xl;
-            &::not(textarea) {
+            &:not(textarea) {
                 @apply text-600;
             }
         }
