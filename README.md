@@ -2,7 +2,7 @@
 This project mimics the UI and some :pinching_hand: of the functionality of Discord.
 
 ## Web Page Link
-[GitHub Pages](https://def-not-dc.vercel.app/)
+[Vercel App](https://def-not-dc.vercel.app/)
 
 
 
@@ -19,6 +19,9 @@ This project mimics the UI and some :pinching_hand: of the functionality of Disc
 > [!NOTE]
 > This project is powered by Next.js, hence deployed on Vercel (which goes the most well with Next.js), instead of Firebase.
 
+> [!CAUTION]
+> Since Vercel is serverless, it is not possible to use WebSocket or socket.io to watch MongoDB change streams, therefore the message rendering may be slower than realtime.
+
 | **Advanced Components**                     | **Score** | **Check**            |
 | :------------------------------------------ | :-------: | :------------------: |
 | Using React                                 | 10%       | :white_check_mark:   |
@@ -29,6 +32,9 @@ This project mimics the UI and some :pinching_hand: of the functionality of Disc
 
 > [!NOTE]
 > Next.js is a framework built on React.
+
+> [!CAUTION]
+> The current Chrome notification implementation only sends new message notifications in the selected thread. After some testing, it is known that 1. It cannot receive notifications when the window is blurred, and 2. The same method doesn't work on mobile devices, and will cause a crash if any notification comes in (has something to do with Service Worker).
 
 | **Bonus Components**                        | **Score** | **Check**            |
 | :------------------------------------------ | :-------: | :------------------: |
@@ -51,7 +57,7 @@ yarn install
 
 Next, create a `.env.local` file at the root of the project. Add the following environement variables.
 <details>
-    <summary>Click here to expand</summary>
+    <summary>Click here to see the variables</summary>
 
     ```
     AUTH_SECRET=LI5ubK+ZHFngobSfFyiUjUqBby90pmM+NzLu3s55nHtc
@@ -66,8 +72,10 @@ Next, create a `.env.local` file at the root of the project. Add the following e
     IMGUR_SECRET=38da011c9655de3f41d0d4ded58f31c2bd416fc2
     ```
 </details>
+
 > [!CAUTION]
 > I am only sharing these environment variables for demo convenience. Please **DO NOT** share it to others!
+> If you want the exact same threads and messages as deployed, change `dndcTest` to `dndc`. Use with caution!
 
 After adding the environement variables, run the development server:
 
@@ -80,74 +88,62 @@ yarn run dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## How to Use?
-### Hompage
-Route: `/`
+### Hompage `/`
 As to now (2024-05-02), the hompage hasn't been done yet. When you visit the hompage, the only way to navigate is clicking the "Open DNDC" link in the top navbar, which takes you to `/signin`.
 
-### Sign In Page
+### Sign Up Page `/signup`
+The sign up page has a pair of credential inputs, further used for creating a user. There are 3 possible cases when you submit:
+1. A user with the same email already exists. It will stay at the same page with a popup "Either you already signed up with this email, or signed in by OAuth before."
+2. Failed to create a user or other internal error. It will stay at the same page with a popup "Account creation failed." or other error messages.
+3. All conditions passed. It will navigate to `/signin` with a popup "You can now sign in with your new account.".\
 
-:warning: Hand Tool, Eyedropper Tool, and Zoom Tool currently **has no actual functionality**.
+There is also a link at the bottom that could directly take you to `/signin`.
 
-Hand Tool `H`
-> Click-drag to move the canvas area if its size is larger than the container.
+### Sign In Page `/signin`
+The sign in page also has a pair of credential inputs, used for matching a user in the database. Every sign in errors, including wrong email, wrong password, user DNE, OAuth failed, etc., would eventually route you back to this page.
 
-Eyedropper Tool `I`
-> Click anywhere to pick up a color and set it to the current active color (fill or stroke).
+> [!NOTE]
+> If you logged in first by credentials, your name is randomly generated in the format `User[######]`. You're also able to sign in with Google OAuth using the exact same email, but not vice versa, because signing in with credentials requires a password match.
+> If you sign in with Google OAuth first, you will have a name and PFP that the provider returns.
 
-Brush Tool `B`
-> Click-drag on the canvas to draw strokes. The brush size is automatically adjusted based on pressure value for pointer devices that supports pressure.
+There is also a link at the bottom that could directly take you to `/signup`.
 
-| **Settings** | **Options**                                               |
-| :----------: | :-------------------------------------------------------: |
-| Stroke Color | Any valid HSL color. This property is shared globally.    |
-| Brush Size   | `1` to `200`, with a step of 1. Defaults to `5`.          |
-| Brush Shape  | `Circle`, `Square`, `Triangle`. **Temporarily disabled.** |
+### Chat `/chat`
+> [!NOTE]
+> This page is only accessible when you are signed in. Otherwise, you will be routed to the sign in page.
 
-Eraser Tool `E`
-> Click-drag on the canvas to erase the canvas with a selectable shape and size
+On the left is the sidebar, which displays all public threads and private threads you're in, your personal profile (name, PFP), some theme settings, and a link to `/chat/settings`.
+The thread creation button locates at the top of it. A name, slogan, and is public are required to create a new thread. Friend select does not show when is public is true. The result of search user excludes the user itself and those that are selected, which can always be removed by pressing the `X` button rendered along with their names.
 
-| **Settings** | **Options**                                               |
-| :----------: | :-------------------------------------------------------: |
-| Eraser Size  | `1` to `200`, with a step of 1. Defaults to `10`.         |
-| Eraser Shape | `Circle`, `Square`, `Triangle`. **Temporarily disabled.** |
+On the right is the main thread messages container. The top shows the current thread's slogan, and the bottom is the input area.
 
-Fill Tool `F`
-> Click on the canvas to fill it with the fill color
+:warning: The image button currently only opens your selected image in a new tab.
 
-| **Settings** | **Options**                                            |
-| :----------- | :----------------------------------------------------: |
-| Fill Color   | Any valid HSL color. This property is shared globally. |
+Only if you select a thread from the sidebar does it render the corresponding messages. Messages supports the Markdown format and mimics the UI of Discord (render a compact version of message when the same user sends multiple messages within a period; each new date has a separator above).
+
+### Settings `/chat/settings`
+> [!NOTE]
+> This page is only accessible when you are signed in. Otherwise, you will be routed to the sign in page.
+
+Currently it only allows you to adjust theme appearance and sign out. You will be routed back to `/` when sign out.
 
 
 
 ## Bonus Function Description
-### Key Control (tool change)
-Switch to a canvas tool by key down. Keydown event listeners are attached in `initToolElements()` through `attachGlobalShortcuts()`, located in `assets/js/canvas.js`.
-> [!NOTE]
-> Text Tool's functionality is actually corrupted by this, therefore written into functions and detaches through `detachGlobalShortcuts()` when the input area is in focus.
+### Theme / Palette changing
+This is actually a quite complex set to explain. It combines Sass functions, dynamic classes, Provider, useContext, and localStorage to function.
+If you're interested about how it works:
+- For Sass: Start with `/scss/color.modules.scss`, `/scss/_utils.scss`, `/scss/__schemata.scss`, and `/scss/components.scss`.
+- For the rest: Start with `/utils/providers.js` and `/components/theme.js`.
+
+### User Profile / Profile Picture
+Each user has its own profile, including account_id (similar to Instagram ID, handy for user search), PFP, status, and name color. Status is currently not implemented, and color is randomly assigned on user creation. If a message is sent by the user, the message would show the correct PFP and the name text would be colored by the user's name color. Others would be rebdered using a default image and an accent color.
+Profile settings is also not implemented yet.
+
+### Send Image
+You couldn't say that it's fully functional because you can't actually upload local images, but if you know an image's url, you can always insert it using the Markdown syntax `![image]({url})`.
 
 
 
 ## Changelog
-### 2.0.0 (2024-03-30)
-:rocket: **New**
-- Eraser Tool
-- Fill Tool - Fill the entire canvas with only one click
-- Shape Tool - Create basic shapes by click-dragging, controllable by some extra keydown
-- Import image - Import and direct paste images to canvas
-- Export canvas options - User can now choose to export as PNG (w/ or w/o transparency) or JPG
-
-:sparkles: **Improved**
-- Tools are now written as classes extended from a base class. Switching event listeners of tools becomes easier to implement!
-- A white `div` is shown behind the canvas instead for the background, leaving the canvas transparent. This solution has several advantages:
-    - Restting the canvas needs only one line of `clearRect()`. No need to then `fillRect()` with white and mess with `fillStyle`.
-    - Brush Tool and Eraser Tool can share the same DrawTool class, made possible by passing a different `compositeOperation`. Less code, less anger!
-    - Able to export image with transparency.
-- Automatically swap to Bezier interpolation when drawing too fast. This reduces the n-gon like shape for the curves drawn. (Powered by [Bezier.js](https://github.com/Pomax/bezierjs))
-
-:bug: **Bugfix**
-- Shapes stil have strokes even though `lineWidth` is set to 0
-    - `CanvasRenderingContext2D.lineWidth` cannot be set to 0
-    - Introduce a new flag `enableStroke`, set to true if the input range slider slides to 0
-- Keydowns with control keys pressed also triggers tool change
-    - Check for `e.altKey`, `e.ctrlKey`, `e.metaKey`, and `e.shiftKey` before searching match key
+(TBD)
