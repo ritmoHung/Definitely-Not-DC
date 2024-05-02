@@ -1,16 +1,23 @@
 "use client";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useContext, useEffect } from "react";
+import { Suspense, useContext, useEffect } from "react";
 import { PopupContext } from "@/app/utils/popup";
 
 // Components
 import SignDeco from "@/app/components/signpage/signDeco";
 import { SignUpPanel } from "@/app/components/signpage/signUpPanel";
 
-export default function Login() {
+export default function SignUp() {return (
+        <Suspense>
+            <SignUpPage />
+        </Suspense>
+    );
+}
+
+function SignUpPage() {
     const { addPopupMessage } = useContext(PopupContext);
-    const router = useRouter();
     const searchParams = useSearchParams();
+    const router = useRouter();
 
     let success = searchParams.get("success");
     let error = searchParams.get("error");
