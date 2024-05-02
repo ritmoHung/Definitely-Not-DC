@@ -1,5 +1,5 @@
 import { authenticateUser, createUser } from "@/app/utils/userUtils";
-import { hashPassword, verifyPassword } from "./app/utils/pwUtils";
+import { verifyPassword } from "@/app/utils/pwUtils";
 
 // Auth.js
 import NextAuth from "next-auth";
@@ -23,17 +23,14 @@ const providers = [
                 if (userData) {
                     const match = await verifyPassword(credentials.password, userData.password);
                     if (!match) throw new Error("PW: Password mismatch.");
-                } else {
-                    // Directly creates user if DNE
-                    userInfo.password = await hashPassword(credentials.password);
-                    userInfo.account_id = userInfo.email.split("@")[0];
-                    userData = await createUser(userInfo);
-                }
 
-                // Assign returned data to 'user'
-                const { user_id: id, ...others } = userData;
-                user.id = id;
-                Object.assign(user, others);
+                    // Assign returned data to 'user'
+                    const { user_id: id, ...others } = userData;
+                    user.id = id;
+                    Object.assign(user, others);
+                } else {
+                    throw new Error("ID: User not found.");
+                }
 
                 return user;
             } catch(error) {
