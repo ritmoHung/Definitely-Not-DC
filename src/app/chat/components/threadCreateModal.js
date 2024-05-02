@@ -76,7 +76,7 @@ export default function ThreadCreateModal({ closeModal }) {
 
     return (
         <Modal closeModal={closeModal}>
-            <h2 className="mb-6">Wanna chat?</h2>
+            <h2 className="mb-4">Not satisfied? Create one!</h2>
             <FormSubmit id="form-create-thread" handleSubmit={handleSubmit}>
                 <FormInput id="thread-name" name="name" placeholder="New name..." required
                            value={name} onInput={(e) => setName(e.target.value.slice(0, 30))} />

@@ -26,7 +26,7 @@
 
 @layer base {
     h1, h2, h3, h4, h5, h6 {
-        @apply leading-[1.25];
+        @apply leading-[1.25] text-balance;
     }
     
     h1 {
@@ -96,7 +96,7 @@
 
 .chat-layout {
     --base-size: 18rem;
-    --max-size: 24rem;
+    --max-size: 22rem;
     @apply grid md:grid-cols-[auto_1fr] w-screen h-svh overflow-hidden isolate;
 
     & .threads-sidebar {

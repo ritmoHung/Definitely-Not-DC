@@ -29,7 +29,14 @@ export default function ThreadContent({ className, ...props }) {
                 <FontAwesomeIcon className="text-gray-500" icon={faHashtag} />
                 <span className="truncate">{selectedThread?.slogan}</span>
             </div>
-            <ThreadMessages />
+            {selectedThread ? (
+                <ThreadMessages />
+            ) : (
+                <div className="grid place-content-center place-items-center">
+                    <h2>Wanna chat?</h2>
+                    <span className="text-gray-500">Open the sidebar to select a joined thread!</span>
+                </div>
+            )}
             <ChatInput className="p-4" />
         </div>
     );
