@@ -60,16 +60,13 @@ Next, create a `.env.local` file at the root of the project. Add the following e
     <summary>Click here to see the variables</summary>
 
     ```
-    AUTH_SECRET=LI5ubK+ZHFngobSfFyiUjUqBby90pmM+NzLu3s55nHtc
+    AUTH_SECRET=
 
-    AUTH_GOOGLE_ID=794276175753-ndaq44m20khcd0d4b1bnpdjstei8rv37.apps.googleusercontent.com
-    AUTH_GOOGLE_SECRET=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
+    AUTH_GOOGLE_ID=...
+    AUTH_GOOGLE_SECRET=...
 
-    MONGODB_URI=mongodb+srv://108030015:SbY4tEm2QUwJN9DF@clusterdndc.0jub7lp.mongodb.net
-    MONGODB_DB=dndcTest
-
-    IMGUR_ID=47c0be817ac37c2
-    IMGUR_SECRET=38da011c9655de3f41d0d4ded58f31c2bd416fc2
+    MONGODB_URI=mongodb+srv://[ID]:[SECRET]@[ACCOUNT]
+    MONGODB_DB=dndc
     ```
 </details>
 
