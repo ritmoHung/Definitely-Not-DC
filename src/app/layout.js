@@ -24,9 +24,6 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
 
-// Speed Insights
-import { SpeedInsights } from "@vercel/speed-insights/next";
-
 // Metadata
 const title = "Def Not Discord";
 const description = "歡迎來到「絕不是 Discord」—— 儘管它真的長得很像 Discord...嗎？";
@@ -67,7 +64,6 @@ export default async function RootLayout({ children }) {
                 <Providers>
                     {children}
                 </Providers>
-                <SpeedInsights />
             </body>
 		</html>
 	);

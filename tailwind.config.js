@@ -1,5 +1,4 @@
-/** @type {import('tailwindcss').Config} */
-import plugin from 'tailwindcss/plugin';
+import plugin from "tailwindcss/plugin";
 
 const gridAreaAuto = {
 	gridArea: "auto",
@@ -8,12 +7,13 @@ const gridAreaStack = {
 	gridArea: "stack",
 };
 
-module.exports = {
+const config = {
 	content: [
+		"./src/app/**/*.{js,ts,jsx,tsx,mdx}",
 		"./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
 		"./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-		"./src/app/**/*.{js,ts,jsx,tsx,mdx}",
 	],
+	darkMode: ["class"],
 	theme: {
         screens: {
 			xs: "420px",
@@ -87,3 +87,5 @@ module.exports = {
 		}),
 	],
 };
+
+export default config;
